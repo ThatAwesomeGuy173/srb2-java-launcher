@@ -267,11 +267,24 @@ public class MainWindow extends javax.swing.JFrame {
         } 
         catch (IOException ex) { // Show an error in case the exe isn't found
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Couldn't find executable", ex);
-            JOptionPane.showMessageDialog(null,
-            ""+txtExecutable.getText() +" was not found in this launcher's directory.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
+            // Show a special error message if there's nothing in the Executable field
+            if (txtExecutable.getText().equals("")) {
+                JOptionPane.showMessageDialog(null,
+                "The Executable field cannot be empty.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            }   
+            // If wasn't that, show that whatever they input wasn't found
+            else {
+                JOptionPane.showMessageDialog(null,
+                ""+txtExecutable.getText() +" was not found in this launcher's directory.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            }
         }
+        
+        // Show a *special* error if there's nothing in the Executable field
+        
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void btnCommandlineHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCommandlineHelpActionPerformed

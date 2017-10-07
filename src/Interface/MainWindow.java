@@ -19,7 +19,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainWindow extends javax.swing.JFrame {
-    String versionNumber = "v1.0"; // version number! change this every release, kthx
+    String versionNumber = "v1.1 dev"; // version number! change this every release, kthx
     
     public MainWindow() {
         initComponents();

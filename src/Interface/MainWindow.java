@@ -282,9 +282,6 @@ public class MainWindow extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-        // Show a *special* error if there's nothing in the Executable field
-        
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void btnCommandlineHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCommandlineHelpActionPerformed

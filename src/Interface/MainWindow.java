@@ -27,11 +27,6 @@ public class MainWindow extends javax.swing.JFrame {
         // Program icon
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
         
-        // Set the Renderer options into a group
-        ButtonGroup Renderer = new ButtonGroup();
-        Renderer.add(radSoftware);
-        Renderer.add(radOpenGL);
-        
         // Load from srb2javalauncher.cfg
         Properties prop = new Properties();
     	InputStream input = null;
@@ -97,39 +92,179 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        grpRenderer = new javax.swing.ButtonGroup();
+        panPlayer = new javax.swing.JPanel();
+        txtName = new javax.swing.JTextField();
+        lblName = new javax.swing.JLabel();
+        lblColor = new javax.swing.JLabel();
+        lblSkin = new javax.swing.JLabel();
+        comColor = new javax.swing.JComboBox<>();
+        comSkin = new javax.swing.JComboBox<>();
+        panRenderer = new javax.swing.JPanel();
+        lblRenderer = new javax.swing.JLabel();
+        radSoftware = new javax.swing.JRadioButton();
+        radOpenGL = new javax.swing.JRadioButton();
+        panSound = new javax.swing.JPanel();
+        lblSound = new javax.swing.JLabel();
+        chkMusic = new javax.swing.JCheckBox();
+        chkSFX = new javax.swing.JCheckBox();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        panMisc = new javax.swing.JPanel();
         lblCommandline = new javax.swing.JLabel();
         lblExecutable = new javax.swing.JLabel();
         txtCommandline = new javax.swing.JTextField();
         txtExecutable = new javax.swing.JTextField();
         btnCommandlineHelp = new javax.swing.JButton();
-        btnStart = new javax.swing.JButton();
-        sepBottom = new javax.swing.JSeparator();
-        panRenderer = new javax.swing.JPanel();
-        lblRenderer = new javax.swing.JLabel();
-        radOpenGL = new javax.swing.JRadioButton();
-        radSoftware = new javax.swing.JRadioButton();
         btnExecutable = new javax.swing.JButton();
+        sepBottom = new javax.swing.JSeparator();
+        btnStart = new javax.swing.JButton();
         tbrMain = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
+        itmOpen = new javax.swing.JMenuItem();
+        itmSave = new javax.swing.JMenuItem();
+        itmSaveAs = new javax.swing.JMenuItem();
+        sepFile = new javax.swing.JPopupMenu.Separator();
+        itmOpenFolder = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         itmAbout = new javax.swing.JMenuItem();
-
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ultimate SRB2 Launcher "+ versionNumber);
         setResizable(false);
+
+        panPlayer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblName.setText("Name");
+
+        lblColor.setText("Color");
+
+        lblSkin.setText("Skin");
+
+        comColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "White", "Siver", "Grey", "Black", "Cyan", "Teal", "Steel Blue", "Blue", "Peach", "Tan", "Pink", "Lavender", "Purple", "Orange", "Rosewood", "Beige", "Brown", "Red", "Dark Red", "Neon Green", "Green", "Zim", "Olive", "Yellow", "Gold" }));
+        comColor.setSelectedItem("Blue");
+        comColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comColorActionPerformed(evt);
+            }
+        });
+
+        comSkin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sonic", "Tails", "Knuckles" }));
+
+        javax.swing.GroupLayout panPlayerLayout = new javax.swing.GroupLayout(panPlayer);
+        panPlayer.setLayout(panPlayerLayout);
+        panPlayerLayout.setHorizontalGroup(
+            panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panPlayerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblName)
+                    .addComponent(lblColor))
+                .addGap(18, 18, 18)
+                .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panPlayerLayout.createSequentialGroup()
+                        .addComponent(comColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSkin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comSkin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtName))
+                .addContainerGap())
+        );
+        panPlayerLayout.setVerticalGroup(
+            panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panPlayerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblName)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblColor)
+                    .addComponent(comColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comSkin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSkin))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panRenderer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblRenderer.setText("Renderer");
+
+        grpRenderer.add(radSoftware);
+        radSoftware.setText("Software");
+
+        grpRenderer.add(radOpenGL);
+        radOpenGL.setText("OpenGL");
+
+        javax.swing.GroupLayout panRendererLayout = new javax.swing.GroupLayout(panRenderer);
+        panRenderer.setLayout(panRendererLayout);
+        panRendererLayout.setHorizontalGroup(
+            panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panRendererLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRenderer)
+                    .addComponent(radSoftware)
+                    .addComponent(radOpenGL))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        panRendererLayout.setVerticalGroup(
+            panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panRendererLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblRenderer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radSoftware)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radOpenGL)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panSound.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblSound.setText("Sound");
+
+        chkMusic.setSelected(true);
+        chkMusic.setText("Music");
+
+        chkSFX.setSelected(true);
+        chkSFX.setText("SFX");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Digital", "MIDI", "CD" }));
+
+        javax.swing.GroupLayout panSoundLayout = new javax.swing.GroupLayout(panSound);
+        panSound.setLayout(panSoundLayout);
+        panSoundLayout.setHorizontalGroup(
+            panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panSoundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSound)
+                    .addComponent(chkMusic)
+                    .addComponent(chkSFX))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panSoundLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panSoundLayout.setVerticalGroup(
+            panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panSoundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSound, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkMusic)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkSFX)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        panMisc.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panMisc.setName(""); // NOI18N
 
         lblCommandline.setText("Command-line parameters");
 
@@ -144,6 +279,50 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        btnExecutable.setText("...");
+        btnExecutable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExecutableActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panMiscLayout = new javax.swing.GroupLayout(panMisc);
+        panMisc.setLayout(panMiscLayout);
+        panMiscLayout.setHorizontalGroup(
+            panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panMiscLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCommandline)
+                    .addComponent(lblExecutable)
+                    .addGroup(panMiscLayout.createSequentialGroup()
+                        .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCommandline, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCommandlineHelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panMiscLayout.setVerticalGroup(
+            panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panMiscLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblCommandline)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCommandlineHelp)
+                    .addComponent(txtCommandline))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblExecutable)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExecutable))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         btnStart.setMnemonic('r');
         btnStart.setText("Launch");
         btnStart.setToolTipText("");
@@ -153,54 +332,37 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        panRenderer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        lblRenderer.setText("Renderer");
-
-        radOpenGL.setText("OpenGL");
-
-        radSoftware.setText("Software");
-
-        javax.swing.GroupLayout panRendererLayout = new javax.swing.GroupLayout(panRenderer);
-        panRenderer.setLayout(panRendererLayout);
-        panRendererLayout.setHorizontalGroup(
-            panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panRendererLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblRenderer)
-                .addGap(30, 30, 30))
-            .addGroup(panRendererLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radSoftware)
-                    .addComponent(radOpenGL))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panRendererLayout.setVerticalGroup(
-            panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panRendererLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblRenderer)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radSoftware)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radOpenGL)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        btnExecutable.setText("...");
-        btnExecutable.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExecutableActionPerformed(evt);
-            }
-        });
-
         mnuFile.setText("File");
 
         itmNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        itmNew.setText("New...");
-        itmNew.setEnabled(false);
+        itmNew.setText("New");
         mnuFile.add(itmNew);
+
+        itmOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        itmOpen.setText("Open...");
+        mnuFile.add(itmOpen);
+
+        itmSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        itmSave.setText("Save");
+        mnuFile.add(itmSave);
+
+        itmSaveAs.setText("Save As...");
+        itmSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSaveAsActionPerformed(evt);
+            }
+        });
+        mnuFile.add(itmSaveAs);
+        mnuFile.add(sepFile);
+
+        itmOpenFolder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
+        itmOpenFolder.setText("Open SRB2 Folder...");
+        itmOpenFolder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmOpenFolderActionPerformed(evt);
+            }
+        });
+        mnuFile.add(itmOpenFolder);
 
         tbrMain.add(mnuFile);
 
@@ -226,49 +388,37 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sepBottom, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnStart))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblExecutable)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtCommandline, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCommandlineHelp))
-                            .addComponent(lblCommandline))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(panRenderer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(sepBottom)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panMisc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panSound, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panRenderer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panRenderer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCommandline)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCommandline, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCommandlineHelp))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblExecutable)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExecutable))))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panRenderer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panMisc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panSound, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sepBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnStart)
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -343,6 +493,23 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExecutableActionPerformed
 
+    private void comColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comColorActionPerformed
+
+    private void itmSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveAsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itmSaveAsActionPerformed
+
+    private void itmOpenFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmOpenFolderActionPerformed
+        // Opens the SRB2 directory
+        try {
+            Runtime.getRuntime().exec("explorer.exe /select," + System.getProperty("user.dir"));
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Somehow, the main folder couldn't be opened?", ex);
+        }
+    }//GEN-LAST:event_itmOpenFolderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -374,20 +541,38 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnCommandlineHelp;
     private javax.swing.JButton btnExecutable;
     private javax.swing.JButton btnStart;
+    private javax.swing.JCheckBox chkMusic;
+    private javax.swing.JCheckBox chkSFX;
+    private javax.swing.JComboBox<String> comColor;
+    private javax.swing.JComboBox<String> comSkin;
+    private javax.swing.ButtonGroup grpRenderer;
     private javax.swing.JMenuItem itmAbout;
     private javax.swing.JMenuItem itmNew;
-    private javax.swing.JDialog jDialog1;
+    private javax.swing.JMenuItem itmOpen;
+    private javax.swing.JMenuItem itmOpenFolder;
+    private javax.swing.JMenuItem itmSave;
+    private javax.swing.JMenuItem itmSaveAs;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCommandline;
     private javax.swing.JLabel lblExecutable;
+    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRenderer;
+    private javax.swing.JLabel lblSkin;
+    private javax.swing.JLabel lblSound;
     private javax.swing.JMenu mnuEdit;
     private javax.swing.JMenu mnuFile;
+    private javax.swing.JPanel panMisc;
+    private javax.swing.JPanel panPlayer;
     private javax.swing.JPanel panRenderer;
+    private javax.swing.JPanel panSound;
     private javax.swing.JRadioButton radOpenGL;
     private javax.swing.JRadioButton radSoftware;
     private javax.swing.JSeparator sepBottom;
+    private javax.swing.JPopupMenu.Separator sepFile;
     private javax.swing.JMenuBar tbrMain;
     private javax.swing.JTextField txtCommandline;
     private javax.swing.JTextField txtExecutable;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

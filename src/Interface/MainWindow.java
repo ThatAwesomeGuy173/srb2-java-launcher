@@ -27,24 +27,36 @@ public class MainWindow extends javax.swing.JFrame {
         // Program icon
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
         
-        // Load from srb2javalauncher.cfg
+        // Save & load functionality
         Properties prop = new Properties();
     	InputStream input = null;
         
-    	try {
+        try {
             // Load the config
             input = new FileInputStream("srb2javalauncher.cfg");
             prop.load(input);
+            
+            // Set the defaults for the first-time run
+            // Also useful when upgrading from a previous version, else this won't open
+            if (prop.getProperty("executable") == null) prop.setProperty("executable", "srb2win.exe");
+            if (prop.getProperty("parameters") == null) prop.setProperty("parameters", "");
+            if (prop.getProperty("name") == null) prop.setProperty("name", "Sonic");
+            if (prop.getProperty("color") == null) prop.setProperty("color", "Blue");
+            if (prop.getProperty("skin") == null) prop.setProperty("skin", "Sonic");
+            if (prop.getProperty("renderer") == null) prop.setProperty("renderer", "Software");
+            if (prop.getProperty("music") == null) prop.setProperty("music", "true");
+            if (prop.getProperty("sfx") == null) prop.setProperty("sfx", "true");
 
             // Grab all the saved properties here
             txtExecutable.setText(prop.getProperty("executable"));
-            txtCommandline.setText(prop.getProperty("parameters"));
-            if (prop.getProperty("renderer").equals("OpenGL")) {
-                radOpenGL.setSelected(true);
-            }
-            else {
-                radSoftware.setSelected(true);
-            }
+            txtParameters.setText(prop.getProperty("parameters"));
+            txtName.setText(prop.getProperty("name"));
+            comColor.setSelectedItem(prop.getProperty("color"));
+            comSkin.setSelectedItem(prop.getProperty("skin"));
+            if (prop.getProperty("renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
+            if (prop.getProperty("music").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
+            if (prop.getProperty("sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
+                       
 	} 
         catch (IOException e) {} 
         finally {
@@ -64,13 +76,14 @@ public class MainWindow extends javax.swing.JFrame {
                 output = new FileOutputStream("srb2javalauncher.cfg");
                 
                 prop.setProperty("executable", txtExecutable.getText());
-                prop.setProperty("parameters", txtCommandline.getText());
-                if (radOpenGL.isSelected()) {
-                    prop.setProperty("renderer", "OpenGL");
-                }
-                else {
-                    prop.setProperty("renderer", "Software");
-                }
+                prop.setProperty("parameters", txtParameters.getText());
+                prop.setProperty("name", txtName.getText());
+                prop.setProperty("color", comColor.getSelectedItem().toString());
+                prop.setProperty("skin", comSkin.getSelectedItem().toString());
+                if (chkDigital.isSelected()) prop.setProperty("music", "true"); else prop.setProperty("music", "false");
+                if (chkSFX.isSelected()) prop.setProperty("sfx", "true"); else prop.setProperty("sfx", "false");
+                if (radOpenGL.isSelected()) prop.setProperty("renderer", "OpenGL"); else prop.setProperty("renderer", "Software");
+                
                 prop.store(output, null);
             }
             catch (IOException io) {}
@@ -86,8 +99,6 @@ public class MainWindow extends javax.swing.JFrame {
         
     }
     
-    
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -106,13 +117,14 @@ public class MainWindow extends javax.swing.JFrame {
         radOpenGL = new javax.swing.JRadioButton();
         panSound = new javax.swing.JPanel();
         lblSound = new javax.swing.JLabel();
-        chkMusic = new javax.swing.JCheckBox();
+        chkDigital = new javax.swing.JCheckBox();
         chkSFX = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        chkMIDI = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
         panMisc = new javax.swing.JPanel();
         lblCommandline = new javax.swing.JLabel();
         lblExecutable = new javax.swing.JLabel();
-        txtCommandline = new javax.swing.JTextField();
+        txtParameters = new javax.swing.JTextField();
         txtExecutable = new javax.swing.JTextField();
         btnCommandlineHelp = new javax.swing.JButton();
         btnExecutable = new javax.swing.JButton();
@@ -135,6 +147,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         panPlayer.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        txtName.setText("Sonic");
+
         lblName.setText("Name");
 
         lblColor.setText("Color");
@@ -143,11 +157,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         comColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "White", "Siver", "Grey", "Black", "Cyan", "Teal", "Steel Blue", "Blue", "Peach", "Tan", "Pink", "Lavender", "Purple", "Orange", "Rosewood", "Beige", "Brown", "Red", "Dark Red", "Neon Green", "Green", "Zim", "Olive", "Yellow", "Gold" }));
         comColor.setSelectedItem("Blue");
-        comColor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comColorActionPerformed(evt);
-            }
-        });
 
         comSkin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sonic", "Tails", "Knuckles" }));
 
@@ -192,6 +201,7 @@ public class MainWindow extends javax.swing.JFrame {
         lblRenderer.setText("Renderer");
 
         grpRenderer.add(radSoftware);
+        radSoftware.setSelected(true);
         radSoftware.setText("Software");
 
         grpRenderer.add(radOpenGL);
@@ -207,7 +217,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(lblRenderer)
                     .addComponent(radSoftware)
                     .addComponent(radOpenGL))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panRendererLayout.setVerticalGroup(
             panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,13 +235,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         lblSound.setText("Sound");
 
-        chkMusic.setSelected(true);
-        chkMusic.setText("Music");
+        chkDigital.setSelected(true);
+        chkDigital.setText("Digital");
 
         chkSFX.setSelected(true);
         chkSFX.setText("SFX");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Digital", "MIDI", "CD" }));
+        chkMIDI.setSelected(true);
+        chkMIDI.setText("MIDI");
 
         javax.swing.GroupLayout panSoundLayout = new javax.swing.GroupLayout(panSound);
         panSound.setLayout(panSoundLayout);
@@ -240,13 +251,14 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(panSoundLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSound)
-                    .addComponent(chkMusic)
-                    .addComponent(chkSFX))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panSoundLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1)
+                    .addGroup(panSoundLayout.createSequentialGroup()
+                        .addGroup(panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkMIDI)
+                            .addComponent(lblSound)
+                            .addComponent(chkDigital)
+                            .addComponent(chkSFX))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panSoundLayout.setVerticalGroup(
@@ -255,12 +267,14 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblSound, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkMusic)
+                .addComponent(chkDigital)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkMIDI, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkSFX)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panMisc.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -297,7 +311,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(lblExecutable)
                     .addGroup(panMiscLayout.createSequentialGroup()
                         .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtCommandline, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtParameters, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -313,14 +327,14 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCommandlineHelp)
-                    .addComponent(txtCommandline))
+                    .addComponent(txtParameters))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblExecutable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExecutable))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         btnStart.setMnemonic('r');
@@ -340,18 +354,16 @@ public class MainWindow extends javax.swing.JFrame {
 
         itmOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         itmOpen.setText("Open...");
+        itmOpen.setEnabled(false);
         mnuFile.add(itmOpen);
 
         itmSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         itmSave.setText("Save");
+        itmSave.setEnabled(false);
         mnuFile.add(itmSave);
 
         itmSaveAs.setText("Save As...");
-        itmSaveAs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmSaveAsActionPerformed(evt);
-            }
-        });
+        itmSaveAs.setEnabled(false);
         mnuFile.add(itmSaveAs);
         mnuFile.add(sepFile);
 
@@ -398,8 +410,8 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panSound, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panRenderer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(panRenderer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panSound, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -426,28 +438,52 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        // Declare these so the ProcessBuilder doesn't look too much of a bloody mess
+        String exec = txtExecutable.getText();
+        String args = txtParameters.getText();
+        String name = "+name " + txtName.getText();
+        String skin = "+skin " + comSkin.getSelectedItem().toString();
+        
+        // Transform colors with spaces into underscores
+        String color = comColor.getSelectedItem().toString();
+        switch (color) {
+            case "Steel Blue": color = "+color steel_blue"; break;
+            case "Dark Red": color = "+color dark_red"; break;
+            case "Neon Green": color = "+color neon_green"; break;
+            // Obtain the name from the combobox for every other color
+            default: color = "+color " + comColor.getSelectedItem().toString(); break;
+        }
+        
+        // Determine whether digital/midi audio or sound effects should be used
+        String dig;
+        String mid;
+        String sfx;
+        if (chkDigital.isSelected()) dig = ""; else dig = "-nodigmusic";
+        if (chkMIDI.isSelected()) mid = ""; else mid = "-nomidimusic";
+        if (chkSFX.isSelected()) sfx = ""; else sfx = "-nosound";
+
+        // Determine whether OpenGL should be used
+        String ogl;
+        if (radOpenGL.isSelected()) ogl = "-opengl"; else ogl = "";
+               
         // Launch the damn thing
         try {
-            if (radSoftware.isSelected()) {
-                Process p = new ProcessBuilder(System.getProperty("user.dir") +"\\"+ txtExecutable.getText(), txtCommandline.getText()).start();
-            }
-            else if (radOpenGL.isSelected()) {
-                Process p = new ProcessBuilder(System.getProperty("user.dir") +"\\"+ txtExecutable.getText(), txtCommandline.getText(), "-opengl").start();
-            }
+            // System.out.println("[DEBUG] Arguments passed: "+exec+" "+args+" "+name+" "+color+" "+skin+" "+dig+" "+mid+" "+sfx+" "+ogl); 
+            Process p = new ProcessBuilder(System.getProperty("user.dir") +"\\"+ exec, args, name, color, skin, dig, mid, sfx, ogl).start();
         } 
         catch (IOException ex) { // Show an error in case the exe isn't found
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Couldn't find executable", ex);
             // Show a special error message if there's nothing in the Executable field
-            if (txtExecutable.getText().equals("")) {
+            if (exec.equals("")) {
                 JOptionPane.showMessageDialog(null,
                 "The Executable field cannot be empty.",
-                "Error",
+                "Invalid path",
                 JOptionPane.ERROR_MESSAGE);
             }   
             // If wasn't that, show that whatever they input wasn't found
             else {
                 JOptionPane.showMessageDialog(null,
-                ""+txtExecutable.getText() +" was not found in this launcher's directory.",
+                ""+exec +" was not found in this launcher's directory.",
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
             }
@@ -493,14 +529,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExecutableActionPerformed
 
-    private void comColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comColorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comColorActionPerformed
-
-    private void itmSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveAsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itmSaveAsActionPerformed
-
     private void itmOpenFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmOpenFolderActionPerformed
         // Opens the SRB2 directory
         try {
@@ -541,7 +569,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnCommandlineHelp;
     private javax.swing.JButton btnExecutable;
     private javax.swing.JButton btnStart;
-    private javax.swing.JCheckBox chkMusic;
+    private javax.swing.JCheckBox chkDigital;
+    private javax.swing.JCheckBox chkMIDI;
     private javax.swing.JCheckBox chkSFX;
     private javax.swing.JComboBox<String> comColor;
     private javax.swing.JComboBox<String> comSkin;
@@ -552,7 +581,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmOpenFolder;
     private javax.swing.JMenuItem itmSave;
     private javax.swing.JMenuItem itmSaveAs;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCommandline;
     private javax.swing.JLabel lblExecutable;
@@ -571,8 +600,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator sepBottom;
     private javax.swing.JPopupMenu.Separator sepFile;
     private javax.swing.JMenuBar tbrMain;
-    private javax.swing.JTextField txtCommandline;
     private javax.swing.JTextField txtExecutable;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtParameters;
     // End of variables declaration//GEN-END:variables
 }

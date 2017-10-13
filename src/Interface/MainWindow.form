@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="grpRenderer">
     </Component>
@@ -25,6 +25,7 @@
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Open..."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itmSave">
@@ -33,15 +34,14 @@
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itmSaveAs">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save As..."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmSaveAsActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="sepFile">
             </MenuItem>
@@ -121,8 +121,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="panSound" max="32767" attributes="0"/>
                           <Component id="panRenderer" max="32767" attributes="0"/>
+                          <Component id="panSound" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -209,6 +209,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="txtName">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Sonic"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblName">
           <Properties>
@@ -260,9 +263,6 @@
               <Connection code="&quot;Blue&quot;" type="code"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comColorActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -302,7 +302,7 @@
                       <Component id="radSoftware" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="radOpenGL" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="16" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -331,6 +331,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="grpRenderer"/>
             </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Software"/>
           </Properties>
         </Component>
@@ -356,18 +357,20 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblSound" min="-2" max="-2" attributes="0"/>
-                      <Component id="chkMusic" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="chkSFX" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSeparator1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="chkMIDI" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSound" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkDigital" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkSFX" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -378,12 +381,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblSound" min="-2" pref="14" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="chkMusic" min="-2" max="-2" attributes="0"/>
+                  <Component id="chkDigital" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="chkMIDI" min="-2" pref="23" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jSeparator1" min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="chkSFX" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -394,10 +399,10 @@
             <Property name="text" type="java.lang.String" value="Sound"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="chkMusic">
+        <Component class="javax.swing.JCheckBox" name="chkDigital">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="Music"/>
+            <Property name="text" type="java.lang.String" value="Digital"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkSFX">
@@ -406,19 +411,13 @@
             <Property name="text" type="java.lang.String" value="SFX"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JCheckBox" name="chkMIDI">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Digital"/>
-                <StringItem index="1" value="MIDI"/>
-                <StringItem index="2" value="CD"/>
-              </StringArray>
-            </Property>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="MIDI"/>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
       </SubComponents>
     </Container>
@@ -442,7 +441,7 @@
                       <Component id="lblExecutable" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="txtCommandline" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="txtParameters" min="-2" pref="204" max="-2" attributes="0"/>
                               <Component id="txtExecutable" min="-2" pref="204" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -464,7 +463,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCommandlineHelp" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCommandline" alignment="3" max="32767" attributes="0"/>
+                      <Component id="txtParameters" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblExecutable" min="-2" max="-2" attributes="0"/>
@@ -473,7 +472,7 @@
                       <Component id="txtExecutable" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnExecutable" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -489,7 +488,7 @@
             <Property name="text" type="java.lang.String" value="Executable"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCommandline">
+        <Component class="javax.swing.JTextField" name="txtParameters">
         </Component>
         <Component class="javax.swing.JTextField" name="txtExecutable">
           <Properties>

@@ -92,7 +92,9 @@ public class MainWindow extends javax.swing.JFrame {
                     try {
                         output.close();
                     }
-                    catch (IOException e) {}
+                    catch (IOException e) {
+                    
+                    }
                 }
             }
         })); 
@@ -210,18 +212,18 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(panRendererLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radSoftware)
-                    .addComponent(radOpenGL))
+                    .addComponent(radOpenGL)
+                    .addComponent(radSoftware))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panRendererLayout.setVerticalGroup(
             panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panRendererLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(radSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(radOpenGL)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         panSound.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Sound"));
@@ -430,7 +432,7 @@ public class MainWindow extends javax.swing.JFrame {
         String exec = txtExecutable.getText();
         String args = txtParameters.getText();
         String name = "+name " + txtName.getText();
-        String skin = "+skin " + comSkin.getSelectedItem().toString();
+        String skin = "+skin \"" + comSkin.getSelectedItem().toString() + "\"";
         
         // Transform colors with spaces into underscores
         String color = comColor.getSelectedItem().toString();
@@ -520,7 +522,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void itmOpenFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmOpenFolderActionPerformed
         // Opens the SRB2 directory
         try {
-            Runtime.getRuntime().exec("explorer.exe /select," + System.getProperty("user.dir"));
+            Runtime.getRuntime().exec("explorer" + System.getProperty("user.dir"));
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Somehow, the main folder couldn't be opened?", ex);
         }

@@ -24,6 +24,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         
+        
         // Program icon
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
         
@@ -44,7 +45,8 @@ public class MainWindow extends javax.swing.JFrame {
             if (prop.getProperty("color") == null) prop.setProperty("color", "Blue");
             if (prop.getProperty("skin") == null) prop.setProperty("skin", "Sonic");
             if (prop.getProperty("renderer") == null) prop.setProperty("renderer", "Software");
-            if (prop.getProperty("music") == null) prop.setProperty("music", "true");
+            if (prop.getProperty("digital") == null) prop.setProperty("digital", "true");
+            if (prop.getProperty("midi") == null) prop.setProperty("midi", "true");
             if (prop.getProperty("sfx") == null) prop.setProperty("sfx", "true");
 
             // Grab all the saved properties here
@@ -54,11 +56,18 @@ public class MainWindow extends javax.swing.JFrame {
             comColor.setSelectedItem(prop.getProperty("color"));
             comSkin.setSelectedItem(prop.getProperty("skin"));
             if (prop.getProperty("renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
-            if (prop.getProperty("music").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
+            if (prop.getProperty("digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
+            if (prop.getProperty("midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
             if (prop.getProperty("sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
                        
 	} 
-        catch (IOException e) {} 
+        catch (IOException | NullPointerException e) {
+            JOptionPane.showMessageDialog(null,
+            "An error occurred while loading some properties.\n"
+            +"Resetting them to defaults.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        } 
         finally {
             if (input != null) {
                 try {
@@ -80,21 +89,25 @@ public class MainWindow extends javax.swing.JFrame {
                 prop.setProperty("name", txtName.getText());
                 prop.setProperty("color", comColor.getSelectedItem().toString());
                 prop.setProperty("skin", comSkin.getSelectedItem().toString());
-                if (chkDigital.isSelected()) prop.setProperty("music", "true"); else prop.setProperty("music", "false");
+                if (chkDigital.isSelected()) prop.setProperty("digital", "true"); else prop.setProperty("digital", "false");
+                if (chkMIDI.isSelected()) prop.setProperty("midi", "true"); else prop.setProperty("midi", "false");
                 if (chkSFX.isSelected()) prop.setProperty("sfx", "true"); else prop.setProperty("sfx", "false");
                 if (radOpenGL.isSelected()) prop.setProperty("renderer", "OpenGL"); else prop.setProperty("renderer", "Software");
                 
                 prop.store(output, null);
             }
-            catch (IOException io) {}
+            catch (IOException io) {
+                JOptionPane.showMessageDialog(null,
+                "An error occurred while saving the configuration.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            }
             finally {
                 if (output != null) {
                     try {
                         output.close();
                     }
-                    catch (IOException e) {
-                    
-                    }
+                    catch (IOException e) {}
                 }
             }
         })); 

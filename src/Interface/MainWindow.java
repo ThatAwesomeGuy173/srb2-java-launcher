@@ -38,35 +38,29 @@ public class MainWindow extends javax.swing.JFrame {
             
             // Set the defaults for the first-time run
             // Also useful when upgrading from a previous version, else this won't open
-            if (prop.getProperty("executable") == null) prop.setProperty("executable", "srb2win.exe");
-            if (prop.getProperty("parameters") == null) prop.setProperty("parameters", "");
-            if (prop.getProperty("name") == null) prop.setProperty("name", "Sonic");
-            if (prop.getProperty("color") == null) prop.setProperty("color", "Blue");
-            if (prop.getProperty("skin") == null) prop.setProperty("skin", "Sonic");
-            if (prop.getProperty("renderer") == null) prop.setProperty("renderer", "Software");
-            if (prop.getProperty("digital") == null) prop.setProperty("digital", "true");
-            if (prop.getProperty("midi") == null) prop.setProperty("midi", "true");
-            if (prop.getProperty("sfx") == null) prop.setProperty("sfx", "true");
+            if (prop.getProperty("misc.executable") == null) prop.setProperty("executable", "srb2win.exe");
+            if (prop.getProperty("misc.parameters") == null) prop.setProperty("parameters", "");
+            if (prop.getProperty("player.name") == null) prop.setProperty("name", "Sonic");
+            if (prop.getProperty("player.color") == null) prop.setProperty("color", "Blue");
+            if (prop.getProperty("player.skin") == null) prop.setProperty("skin", "Sonic");
+            if (prop.getProperty("video.renderer") == null) prop.setProperty("renderer", "Software");
+            if (prop.getProperty("music.digital") == null) prop.setProperty("digital", "true");
+            if (prop.getProperty("music.midi") == null) prop.setProperty("midi", "true");
+            if (prop.getProperty("music.sfx") == null) prop.setProperty("sfx", "true");
 
             // Grab all the saved properties here
-            txtExecutable.setText(prop.getProperty("executable"));
-            txtParameters.setText(prop.getProperty("parameters"));
-            txtName.setText(prop.getProperty("name"));
-            comColor.setSelectedItem(prop.getProperty("color"));
-            comSkin.setSelectedItem(prop.getProperty("skin"));
-            if (prop.getProperty("renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
-            if (prop.getProperty("digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
-            if (prop.getProperty("midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
-            if (prop.getProperty("sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
+            txtExecutable.setText(prop.getProperty("misc.executable"));
+            txtParameters.setText(prop.getProperty("misc.parameters"));
+            txtName.setText(prop.getProperty("player.name"));
+            comColor.setSelectedItem(prop.getProperty("player.color"));
+            comSkin.setSelectedItem(prop.getProperty("player.skin"));
+            if (prop.getProperty("video.renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
+            if (prop.getProperty("music.digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
+            if (prop.getProperty("music.midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
+            if (prop.getProperty("music.sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
                        
 	} 
-        catch (IOException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null,
-            "An error occurred while loading some properties.\n"
-            +"Resetting them to defaults.",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-        } 
+        catch (IOException | NullPointerException e) {} 
         finally {
             if (input != null) {
                 try {
@@ -83,15 +77,15 @@ public class MainWindow extends javax.swing.JFrame {
                 // Output everything to srb2javalauncher.cfg
                 output = new FileOutputStream("srb2javalauncher.cfg");
                 
-                prop.setProperty("executable", txtExecutable.getText());
-                prop.setProperty("parameters", txtParameters.getText());
-                prop.setProperty("name", txtName.getText());
-                prop.setProperty("color", comColor.getSelectedItem().toString());
-                prop.setProperty("skin", comSkin.getSelectedItem().toString());
-                if (chkDigital.isSelected()) prop.setProperty("digital", "true"); else prop.setProperty("digital", "false");
-                if (chkMIDI.isSelected()) prop.setProperty("midi", "true"); else prop.setProperty("midi", "false");
-                if (chkSFX.isSelected()) prop.setProperty("sfx", "true"); else prop.setProperty("sfx", "false");
-                if (radOpenGL.isSelected()) prop.setProperty("renderer", "OpenGL"); else prop.setProperty("renderer", "Software");
+                prop.setProperty("misc.executable", txtExecutable.getText());
+                prop.setProperty("misc.parameters", txtParameters.getText());
+                prop.setProperty("player.name", txtName.getText());
+                prop.setProperty("player.color", comColor.getSelectedItem().toString());
+                prop.setProperty("player.skin", comSkin.getSelectedItem().toString());
+                if (chkDigital.isSelected()) prop.setProperty("sound.digital", "true"); else prop.setProperty("sound.digital", "false");
+                if (chkMIDI.isSelected()) prop.setProperty("sound.midi", "true"); else prop.setProperty("sound.midi", "false");
+                if (chkSFX.isSelected()) prop.setProperty("sound.sfx", "true"); else prop.setProperty("sound.sfx", "false");
+                if (radOpenGL.isSelected()) prop.setProperty("video.renderer", "OpenGL"); else prop.setProperty("video.renderer", "Software");
                 
                 prop.store(output, null);
             }

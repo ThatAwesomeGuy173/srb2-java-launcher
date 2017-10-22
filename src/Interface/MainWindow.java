@@ -24,7 +24,6 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         
-        
         // Program icon
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
         
@@ -353,6 +352,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         itmNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         itmNew.setText("New");
+        itmNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmNewActionPerformed(evt);
+            }
+        });
         mnuFile.add(itmNew);
 
         itmOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
@@ -540,6 +544,19 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Somehow, the main folder couldn't be opened?", ex);
         }
     }//GEN-LAST:event_itmOpenFolderActionPerformed
+
+    private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
+        // Reset everything to default
+        txtExecutable.setText("srb2win.exe");
+        txtParameters.setText("");
+        txtName.setText("Sonic");
+        comColor.setSelectedItem("Blue");
+        comSkin.setSelectedItem("Sonic");
+        radSoftware.setSelected(true);
+        chkDigital.setSelected(true);
+        chkMIDI.setSelected(true);
+        chkSFX.setSelected(true);
+    }//GEN-LAST:event_itmNewActionPerformed
 
     /**
      * @param args the command line arguments

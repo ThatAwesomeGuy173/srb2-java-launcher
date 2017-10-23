@@ -87,7 +87,10 @@
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
       <Connection code="&quot;Ultimate SRB2 Launcher &quot;+ versionNumber" type="code"/>
     </Property>
-    <Property name="resizable" type="boolean" value="false"/>
+    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+      <Color id="Default Cursor"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value="launcherwindow" noResource="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="tbrMain"/>
@@ -237,6 +240,7 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="comColor">
           <Properties>
+            <Property name="maximumRowCount" type="int" value="14"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="25">
                 <StringItem index="0" value="White"/>
@@ -367,7 +371,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSeparator1" max="32767" attributes="0"/>
+                      <Component id="sepSound" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="chkMIDI" min="-2" max="-2" attributes="0"/>
@@ -389,7 +393,7 @@
                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   <Component id="chkMIDI" min="-2" pref="23" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jSeparator1" min="-2" pref="2" max="-2" attributes="0"/>
+                  <Component id="sepSound" min="-2" pref="2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="chkSFX" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="14" max="32767" attributes="0"/>
@@ -416,7 +420,7 @@
             <Property name="text" type="java.lang.String" value="MIDI"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSeparator" name="jSeparator1">
+        <Component class="javax.swing.JSeparator" name="sepSound">
         </Component>
       </SubComponents>
     </Container>
@@ -449,8 +453,8 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnCommandlineHelp" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnExecutable" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
+                              <Component id="btnParametersHelp" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnExecutableSelect" alignment="1" min="-2" pref="37" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -466,14 +470,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtParameters" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnCommandlineHelp" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnParametersHelp" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblExecutable" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txtExecutable" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnExecutable" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnExecutableSelect" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
               </Group>
@@ -498,20 +502,20 @@
             <Property name="text" type="java.lang.String" value="srb2win.exe"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCommandlineHelp">
+        <Component class="javax.swing.JButton" name="btnParametersHelp">
           <Properties>
             <Property name="text" type="java.lang.String" value="?"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCommandlineHelpActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnParametersHelpActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnExecutable">
+        <Component class="javax.swing.JButton" name="btnExecutableSelect">
           <Properties>
             <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExecutableActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExecutableSelectActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

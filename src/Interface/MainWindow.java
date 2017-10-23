@@ -16,16 +16,19 @@ import java.awt.Toolkit;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 public class MainWindow extends javax.swing.JFrame {
-    String versionNumber = "v1.1 dev"; // version number! change this every release, kthx
+    String versionNumber = "v1.1 RC1"; // version number! change this every release, kthx
     
     public MainWindow() {
         initComponents();
-        
+
         // Program icon
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
+        // If you're going to change this, make sure to do it for the About dialog box as well
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_tails.png")));
         
         // Save & load functionality
         Properties prop = new Properties();
@@ -38,15 +41,15 @@ public class MainWindow extends javax.swing.JFrame {
             
             // Set the defaults for the first-time run
             // Also useful when upgrading from a previous version, else this won't open
-            if (prop.getProperty("misc.executable") == null) prop.setProperty("executable", "srb2win.exe");
-            if (prop.getProperty("misc.parameters") == null) prop.setProperty("parameters", "");
-            if (prop.getProperty("player.name") == null) prop.setProperty("name", "Sonic");
-            if (prop.getProperty("player.color") == null) prop.setProperty("color", "Blue");
-            if (prop.getProperty("player.skin") == null) prop.setProperty("skin", "Sonic");
-            if (prop.getProperty("video.renderer") == null) prop.setProperty("renderer", "Software");
-            if (prop.getProperty("music.digital") == null) prop.setProperty("digital", "true");
-            if (prop.getProperty("music.midi") == null) prop.setProperty("midi", "true");
-            if (prop.getProperty("music.sfx") == null) prop.setProperty("sfx", "true");
+            if (prop.getProperty("misc.executable") == null) prop.setProperty("misc.executable", "srb2win.exe");
+            if (prop.getProperty("misc.parameters") == null) prop.setProperty("misc.parameters", "");
+            if (prop.getProperty("player.name") == null) prop.setProperty("player.name", "Sonic");
+            if (prop.getProperty("player.color") == null) prop.setProperty("player.color", "Blue");
+            if (prop.getProperty("player.skin") == null) prop.setProperty("player.skin", "Sonic");
+            if (prop.getProperty("video.renderer") == null) prop.setProperty("video.renderer", "Software");
+            if (prop.getProperty("sound.digital") == null) prop.setProperty("sound.digital", "true");
+            if (prop.getProperty("sound.midi") == null) prop.setProperty("sound.midi", "true");
+            if (prop.getProperty("sound.sfx") == null) prop.setProperty("sound.sfx", "true");
 
             // Grab all the saved properties here
             txtExecutable.setText(prop.getProperty("misc.executable"));
@@ -55,18 +58,20 @@ public class MainWindow extends javax.swing.JFrame {
             comColor.setSelectedItem(prop.getProperty("player.color"));
             comSkin.setSelectedItem(prop.getProperty("player.skin"));
             if (prop.getProperty("video.renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
-            if (prop.getProperty("music.digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
-            if (prop.getProperty("music.midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
-            if (prop.getProperty("music.sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
+            if (prop.getProperty("sound.digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
+            if (prop.getProperty("sound.midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
+            if (prop.getProperty("sound.sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
                        
 	} 
-        catch (IOException | NullPointerException e) {} 
+        catch (IOException | NullPointerException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.WARNING, "Some properties were missing, resetting to defaults", ex);
+        } 
         finally {
             if (input != null) {
                 try {
                     input.close();
 		} 
-                catch (IOException e) {}
+                catch (IOException ex) {}
             }
 	}
         
@@ -89,7 +94,7 @@ public class MainWindow extends javax.swing.JFrame {
                 
                 prop.store(output, null);
             }
-            catch (IOException io) {
+            catch (IOException ex) {
                 JOptionPane.showMessageDialog(null,
                 "An error occurred while saving the configuration.",
                 "Error",
@@ -100,10 +105,10 @@ public class MainWindow extends javax.swing.JFrame {
                     try {
                         output.close();
                     }
-                    catch (IOException e) {}
+                    catch (IOException ex) {}
                 }
             }
-        })); 
+        }));
         
     }
     
@@ -114,6 +119,7 @@ public class MainWindow extends javax.swing.JFrame {
         grpRenderer = new javax.swing.ButtonGroup();
         panPlayer = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
+        ((AbstractDocument)txtName.getDocument()).setDocumentFilter(new LimitDocumentFilter(20)); // 20-character limit
         lblName = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblSkin = new javax.swing.JLabel();
@@ -126,14 +132,14 @@ public class MainWindow extends javax.swing.JFrame {
         chkDigital = new javax.swing.JCheckBox();
         chkSFX = new javax.swing.JCheckBox();
         chkMIDI = new javax.swing.JCheckBox();
-        jSeparator1 = new javax.swing.JSeparator();
+        sepSound = new javax.swing.JSeparator();
         panMisc = new javax.swing.JPanel();
         lblCommandline = new javax.swing.JLabel();
         lblExecutable = new javax.swing.JLabel();
         txtParameters = new javax.swing.JTextField();
         txtExecutable = new javax.swing.JTextField();
-        btnCommandlineHelp = new javax.swing.JButton();
-        btnExecutable = new javax.swing.JButton();
+        btnParametersHelp = new javax.swing.JButton();
+        btnExecutableSelect = new javax.swing.JButton();
         sepBottom = new javax.swing.JSeparator();
         btnStart = new javax.swing.JButton();
         tbrMain = new javax.swing.JMenuBar();
@@ -149,7 +155,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ultimate SRB2 Launcher "+ versionNumber);
-        setResizable(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setName("launcherwindow"); // NOI18N
 
         panPlayer.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Player"));
 
@@ -161,6 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         lblSkin.setText("Skin");
 
+        comColor.setMaximumRowCount(14);
         comColor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "White", "Siver", "Grey", "Black", "Cyan", "Teal", "Steel Blue", "Blue", "Peach", "Tan", "Pink", "Lavender", "Purple", "Orange", "Rosewood", "Beige", "Brown", "Red", "Dark Red", "Neon Green", "Green", "Zim", "Olive", "Yellow", "Gold" }));
         comColor.setSelectedItem("Blue");
 
@@ -250,7 +258,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(panSoundLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
+                    .addComponent(sepSound)
                     .addGroup(panSoundLayout.createSequentialGroup()
                         .addGroup(panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chkMIDI)
@@ -267,7 +275,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addComponent(chkMIDI, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sepSound, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chkSFX)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -282,17 +290,17 @@ public class MainWindow extends javax.swing.JFrame {
 
         txtExecutable.setText("srb2win.exe");
 
-        btnCommandlineHelp.setText("?");
-        btnCommandlineHelp.addActionListener(new java.awt.event.ActionListener() {
+        btnParametersHelp.setText("?");
+        btnParametersHelp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCommandlineHelpActionPerformed(evt);
+                btnParametersHelpActionPerformed(evt);
             }
         });
 
-        btnExecutable.setText("...");
-        btnExecutable.addActionListener(new java.awt.event.ActionListener() {
+        btnExecutableSelect.setText("...");
+        btnExecutableSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExecutableActionPerformed(evt);
+                btnExecutableSelectActionPerformed(evt);
             }
         });
 
@@ -311,8 +319,8 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCommandlineHelp)
-                            .addComponent(btnExecutable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnParametersHelp)
+                            .addComponent(btnExecutableSelect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panMiscLayout.setVerticalGroup(
@@ -323,13 +331,13 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCommandlineHelp))
+                    .addComponent(btnParametersHelp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblExecutable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExecutable))
+                    .addComponent(btnExecutableSelect))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -466,11 +474,14 @@ public class MainWindow extends javax.swing.JFrame {
         // Determine whether OpenGL should be used
         String ogl;
         if (radOpenGL.isSelected()) ogl = "-opengl"; else ogl = "";
-               
+        
         // Launch the damn thing
         try {
             // System.out.println("[DEBUG] Arguments passed: "+exec+" "+args+" "+name+" "+color+" "+skin+" "+dig+" "+mid+" "+sfx+" "+ogl); 
-            Process p = new ProcessBuilder(System.getProperty("user.dir") +"\\"+ exec, args, name, color, skin, dig, mid, sfx, ogl).start();
+            Process p = new ProcessBuilder(
+                System.getProperty("user.dir") +"\\"+ exec, 
+                args, name, color, skin, dig, mid, sfx, ogl)
+                .start();
         } 
         catch (IOException ex) { // Show an error in case the exe isn't found
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Couldn't find executable", ex);
@@ -484,14 +495,14 @@ public class MainWindow extends javax.swing.JFrame {
             // If wasn't that, show that whatever they input wasn't found
             else {
                 JOptionPane.showMessageDialog(null,
-                ""+exec +" was not found in this launcher's directory.",
-                "Error",
+                exec+" was not found in this launcher's directory.",
+                "File not found",
                 JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnStartActionPerformed
 
-    private void btnCommandlineHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCommandlineHelpActionPerformed
+    private void btnParametersHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParametersHelpActionPerformed
         // Button that opens the wiki for command-line parameters
         if (Desktop.isDesktopSupported()) {
             try { 
@@ -501,11 +512,11 @@ public class MainWindow extends javax.swing.JFrame {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Somehow, the Help button fucked up", ex);
             }
         }
-    }//GEN-LAST:event_btnCommandlineHelpActionPerformed
+    }//GEN-LAST:event_btnParametersHelpActionPerformed
 
     private void itmAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmAboutActionPerformed
         // About dialog box
-        Icon AboutIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/icon.png")));
+        Icon AboutIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_tails.png")));
         JOptionPane.showMessageDialog(null,
         "Ultimate SRB2 Launcher "+versionNumber+"\n"
         +"Copyright © Rex \"ThatAwesomeGuy173\" James, 2017.\n"
@@ -516,7 +527,7 @@ public class MainWindow extends javax.swing.JFrame {
         AboutIcon);
     }//GEN-LAST:event_itmAboutActionPerformed
 
-    private void btnExecutableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecutableActionPerformed
+    private void btnExecutableSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecutableSelectActionPerformed
         // Choose Your File
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("EXE files (*.exe)", "exe"); // Allow only exe files
@@ -525,15 +536,15 @@ public class MainWindow extends javax.swing.JFrame {
         fc.setCurrentDirectory(new java.io.File(System.getProperty("user.dir"))); // Open this launcher's current directory
         fc.setDialogTitle("Select an executable");
         
-        if (fc.showOpenDialog(btnExecutable) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(btnExecutableSelect) == JFileChooser.APPROVE_OPTION){
             txtExecutable.setText(fc.getSelectedFile().getName()); // Set the executable's name ONLY if the user presses OK
         }
-    }//GEN-LAST:event_btnExecutableActionPerformed
+    }//GEN-LAST:event_btnExecutableSelectActionPerformed
 
     private void itmOpenFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmOpenFolderActionPerformed
         // Opens the SRB2 directory
         try {
-            Runtime.getRuntime().exec("explorer" + System.getProperty("user.dir"));
+            Runtime.getRuntime().exec("explorer \"" + System.getProperty("user.dir") + "\"");
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Somehow, the main folder couldn't be opened?", ex);
         }
@@ -560,28 +571,48 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(
             UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainWindow().setVisible(true);
         });
+        
+    
+    }
+    // Text field limiter (used for the Name text box)
+    // https://stackoverflow.com/a/24473097
+    public class LimitDocumentFilter extends DocumentFilter {
+
+        private int limit;
+
+        public LimitDocumentFilter(int limit) {
+            if (limit <= 0) {
+                throw new IllegalArgumentException("Limit can not be <= 0");
+            }
+            this.limit = limit;
+        }
+
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            int currentLength = fb.getDocument().getLength();
+            int overLimit = (currentLength + text.length()) - limit - length;
+            if (overLimit > 0) {
+                text = text.substring(0, text.length() - overLimit);
+            }
+            if (text.length() > 0) {
+                super.replace(fb, offset, length, text, attrs); 
+            }
+        }
+                
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCommandlineHelp;
-    private javax.swing.JButton btnExecutable;
+    private javax.swing.JButton btnExecutableSelect;
+    private javax.swing.JButton btnParametersHelp;
     private javax.swing.JButton btnStart;
     private javax.swing.JCheckBox chkDigital;
     private javax.swing.JCheckBox chkMIDI;
@@ -595,7 +626,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmOpenFolder;
     private javax.swing.JMenuItem itmSave;
     private javax.swing.JMenuItem itmSaveAs;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCommandline;
     private javax.swing.JLabel lblExecutable;
@@ -611,6 +641,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton radSoftware;
     private javax.swing.JSeparator sepBottom;
     private javax.swing.JPopupMenu.Separator sepFile;
+    private javax.swing.JSeparator sepSound;
     private javax.swing.JMenuBar tbrMain;
     private javax.swing.JTextField txtExecutable;
     private javax.swing.JTextField txtName;

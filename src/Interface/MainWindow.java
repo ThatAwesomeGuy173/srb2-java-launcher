@@ -36,7 +36,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         try {
             // Load the config
-            input = new FileInputStream("srb2javalauncher.cfg");
+            input = new FileInputStream("ultimatesrb2launcher.cfg");
             prop.load(input);
             
             // Set the defaults for the first-time run
@@ -79,8 +79,8 @@ public class MainWindow extends javax.swing.JFrame {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             OutputStream output = null;
             try {
-                // Output everything to srb2javalauncher.cfg
-                output = new FileOutputStream("srb2javalauncher.cfg");
+                // Output everything to ultimatesrb2launcher.cfg
+                output = new FileOutputStream("ultimatesrb2launcher.cfg");
                 
                 prop.setProperty("misc.executable", txtExecutable.getText());
                 prop.setProperty("misc.parameters", txtParameters.getText());

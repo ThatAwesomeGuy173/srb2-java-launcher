@@ -21,14 +21,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 public class MainWindow extends javax.swing.JFrame {
-    String versionNumber = "v1.1 RC1"; // version number! change this every release, kthx
+    String versionNumber = "v1.1"; // version number! change this every release, kthx
     
     public MainWindow() {
         initComponents();
 
         // Program icon
         // If you're going to change this, make sure to do it for the About dialog box as well
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_tails.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_sonic.png")));
         
         // Save & load functionality
         Properties prop = new Properties();
@@ -516,7 +516,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void itmAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmAboutActionPerformed
         // About dialog box
-        Icon AboutIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_tails.png")));
+        Icon AboutIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_sonic.png")));
         JOptionPane.showMessageDialog(null,
         "Ultimate SRB2 Launcher "+versionNumber+"\n"
         +"Copyright © Rex \"ThatAwesomeGuy173\" James, 2017.\n"

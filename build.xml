@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ultimate-srb2-launcher" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Ultimate SRB2 Launcher.</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>

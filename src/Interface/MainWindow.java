@@ -23,10 +23,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 public class MainWindow extends javax.swing.JFrame {
+    // Variables accessed throughout the whole program
     String versionNumber = "v1.2 dev"; // version number! change this every release, kthx
+    DefaultListModel fileModel; // filelist, useful for listing files
     
     public MainWindow() {
         initComponents();
+        
+        // Set the model for the file list
+        fileModel = new DefaultListModel();
+        listFiles.setModel(fileModel);
         
         // Save & load functionality
         Properties prop = new Properties();
@@ -125,6 +131,7 @@ public class MainWindow extends javax.swing.JFrame {
         sepSound = new javax.swing.JSeparator();
         panPlayer = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
+        ((AbstractDocument)txtName.getDocument()).setDocumentFilter(new LimitDocumentFilter(20)); // 20-character limit
         lblName = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblSkin = new javax.swing.JLabel();
@@ -140,6 +147,13 @@ public class MainWindow extends javax.swing.JFrame {
         panRenderer = new javax.swing.JPanel();
         radSoftware = new javax.swing.JRadioButton();
         radOpenGL = new javax.swing.JRadioButton();
+        tabFiles = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listFiles = new javax.swing.JList<>();
+        btnAddFile = new javax.swing.JButton();
+        btnRemoveFile = new javax.swing.JButton();
+        btnClearList = new javax.swing.JButton();
         tabLauncher = new javax.swing.JPanel();
         panTheme = new javax.swing.JPanel();
         lblIcon = new javax.swing.JLabel();
@@ -401,6 +415,86 @@ public class MainWindow extends javax.swing.JFrame {
 
         tabpanelMain.addTab("Main", tabMain);
 
+        tabFiles.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Files"));
+
+        jScrollPane1.setViewportView(listFiles);
+
+        btnAddFile.setText("Add...");
+        btnAddFile.setPreferredSize(new java.awt.Dimension(72, 23));
+        btnAddFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddFileActionPerformed(evt);
+            }
+        });
+
+        btnRemoveFile.setText("Remove");
+        btnRemoveFile.setPreferredSize(new java.awt.Dimension(72, 23));
+        btnRemoveFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveFileActionPerformed(evt);
+            }
+        });
+
+        btnClearList.setText("Clear");
+        btnClearList.setPreferredSize(new java.awt.Dimension(72, 23));
+        btnClearList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearListActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 120, Short.MAX_VALUE)
+                        .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout tabFilesLayout = new javax.swing.GroupLayout(tabFiles);
+        tabFiles.setLayout(tabFilesLayout);
+        tabFilesLayout.setHorizontalGroup(
+            tabFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabFilesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        tabFilesLayout.setVerticalGroup(
+            tabFilesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabFilesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabpanelMain.addTab("File List", tabFiles);
+
         tabLauncher.setBackground(new java.awt.Color(255, 255, 255));
 
         panTheme.setBackground(new java.awt.Color(255, 255, 255));
@@ -427,7 +521,6 @@ public class MainWindow extends javax.swing.JFrame {
         radCustom.setBackground(new java.awt.Color(255, 255, 255));
         grpIcon.add(radCustom);
         radCustom.setText("Custom");
-        radCustom.setEnabled(false);
         radCustom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radCustomActionPerformed(evt);
@@ -528,7 +621,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(tabLauncherLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabpanelMain.addTab("Launcher", tabLauncher);
@@ -545,7 +638,6 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.setText("File");
 
         itmNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        itmNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/new.png"))); // NOI18N
         itmNew.setText("New");
         itmNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -560,7 +652,6 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.add(itmOpen);
 
         itmSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        itmSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/save.png"))); // NOI18N
         itmSave.setText("Save");
         itmSave.setEnabled(false);
         mnuFile.add(itmSave);
@@ -571,7 +662,6 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.add(sepFile);
 
         itmOpenFolder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
-        itmOpenFolder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/openfolder.png"))); // NOI18N
         itmOpenFolder.setText("Open SRB2 Folder...");
         itmOpenFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -603,12 +693,14 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnStart)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tabpanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(sepBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabpanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sepBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnStart)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -627,12 +719,17 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        // Start by 
+        // Get all the arguments and set them to strings
+        
+        // Executable and its path (these are separate for error dialog purposes)
         String exec = txtExecutable.getText();
         String path = System.getProperty("user.dir") +"\\"+ exec;
+        
         String args = " "+txtParameters.getText();
         String name = " +name " + txtName.getText();
         String skin = " +skin \"" + comSkin.getSelectedItem().toString() + "\"";
+        String file = " -file " + listFiles.getModel().toString()
+                      .replaceAll("\\[","").replaceAll("\\]","").replaceAll("[,]","");
         
         // Transform colors with spaces into underscores
         String color = comColor.getSelectedItem().toString();
@@ -658,7 +755,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         // Combine all of these parameters into one big mess
         String finalargs = 
-                path + args + 
+                path + args + file +
                 name + skin + color + 
                 dig + mid + sfx + 
                 ogl; 
@@ -668,16 +765,17 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("[DEBUG] Arguments passed: "+finalargs);
             Process p = Runtime.getRuntime().exec(finalargs);
         } 
-        catch (IOException ex) { // Show an error in case the exe isn't found
+        // Show an error in case the exe isn't found
+        catch (IOException ex) { 
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Couldn't find executable", ex);
-            // Show a special error message if there's nothing in the Executable field
+            // Show this if there's nothing in the Executable field
             if (exec.equals("")) {
                 JOptionPane.showMessageDialog(null,
                 "The Executable field cannot be empty.",
                 "Invalid path",
                 JOptionPane.ERROR_MESSAGE);
             }   
-            // If wasn't that, show that whatever they input wasn't found
+            // Use this error message for everything else
             else {
                 JOptionPane.showMessageDialog(null,
                 exec+" was not found in the launcher's directory.",
@@ -759,7 +857,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
         /* CUSTOM ICON */        
         // Create a variable that will change depending on what was selected        
-        String programIcon = null;
+        String programIcon;
 
         // Check whether Preset or Use Custom is selected, and act accordingly
         if (radPreset.isSelected()) { 
@@ -794,21 +892,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (chkShowVersion.isSelected()) { setTitle(launcherName +" "+ versionNumber); }
         else { setTitle(launcherName); }
     }//GEN-LAST:event_btnApplyActionPerformed
-
-    private void radPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPresetActionPerformed
-        // Disables the custom icon textbox and button in the only feasible way I can think of
-        cboIcon.setEnabled(true);
-        txtCustomIcon.setEnabled(false);
-        btnCustomIcon.setEnabled(false);
-    }//GEN-LAST:event_radPresetActionPerformed
-
-    private void radCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radCustomActionPerformed
-        // ...and vice-versa
-        cboIcon.setEnabled(false);
-        txtCustomIcon.setEnabled(true);
-        btnCustomIcon.setEnabled(true);
-    }//GEN-LAST:event_radCustomActionPerformed
-
+	
     private void btnCustomIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomIconActionPerformed
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -824,6 +908,48 @@ public class MainWindow extends javax.swing.JFrame {
             txtCustomIcon.setText(fc.getSelectedFile().getAbsolutePath()); 
         }
     }//GEN-LAST:event_btnCustomIconActionPerformed
+
+    private void radPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPresetActionPerformed
+        // Disables the custom icon textbox and button in the only feasible way I can think of
+        cboIcon.setEnabled(true);
+        txtCustomIcon.setEnabled(false);
+        btnCustomIcon.setEnabled(false);
+    }//GEN-LAST:event_radPresetActionPerformed
+
+    private void radCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radCustomActionPerformed
+        // ...and vice-versa
+        cboIcon.setEnabled(false);
+        txtCustomIcon.setEnabled(true);
+        btnCustomIcon.setEnabled(true);
+    }//GEN-LAST:event_radCustomActionPerformed
+
+    private void btnAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFileActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "All supported types (*.wad, *.soc, *.lua)", "wad", "soc", "lua");
+        
+        // Set the filter, use this launcher's directory and set the title
+        fc.setFileFilter((javax.swing.filechooser.FileFilter) filter);
+        fc.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
+        fc.setDialogTitle("Select a file");
+        
+        // Set the icon image ONLY if the user presses OK
+        if (fc.showOpenDialog(btnCustomIcon) == JFileChooser.APPROVE_OPTION){
+            fileModel.addElement(fc.getSelectedFile().getName());
+        }
+    }//GEN-LAST:event_btnAddFileActionPerformed
+
+    private void btnRemoveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveFileActionPerformed
+        int index = listFiles.getSelectedIndex();
+        if (index != -1) {
+            fileModel.remove(index);
+        }
+    }//GEN-LAST:event_btnRemoveFileActionPerformed
+
+    private void btnClearListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearListActionPerformed
+        // Delete everything
+        fileModel.removeAllElements();
+    }//GEN-LAST:event_btnClearListActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -869,10 +995,13 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddFile;
     private javax.swing.JButton btnApply;
+    private javax.swing.JButton btnClearList;
     private javax.swing.JButton btnCustomIcon;
     private javax.swing.JButton btnExecutableSelect;
     private javax.swing.JButton btnParametersHelp;
+    private javax.swing.JButton btnRemoveFile;
     private javax.swing.JButton btnStart;
     private javax.swing.JComboBox<String> cboIcon;
     private javax.swing.JCheckBox chkDigital;
@@ -889,6 +1018,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmOpenFolder;
     private javax.swing.JMenuItem itmSave;
     private javax.swing.JMenuItem itmSaveAs;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCommandline;
     private javax.swing.JLabel lblExecutable;
@@ -896,6 +1027,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblLauncherName;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblSkin;
+    private javax.swing.JList<String> listFiles;
     private javax.swing.JMenu mnuEdit;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JPanel panMisc;
@@ -911,6 +1043,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator sepFile;
     private javax.swing.JSeparator sepSound;
     private javax.swing.JSeparator sepTheme;
+    private javax.swing.JPanel tabFiles;
     private javax.swing.JPanel tabLauncher;
     private javax.swing.JPanel tabMain;
     private javax.swing.JTabbedPane tabpanelMain;

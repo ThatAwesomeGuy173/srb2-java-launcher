@@ -13,9 +13,10 @@ import java.util.logging.Logger;
 import java.util.Properties;
 import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -426,6 +427,7 @@ public class MainWindow extends javax.swing.JFrame {
         radCustom.setBackground(new java.awt.Color(255, 255, 255));
         grpIcon.add(radCustom);
         radCustom.setText("Custom");
+        radCustom.setEnabled(false);
         radCustom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radCustomActionPerformed(evt);
@@ -755,7 +757,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_itmNewActionPerformed
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
-        /*
+        /* CUSTOM ICON */        
         // Create a variable that will change depending on what was selected        
         String programIcon = null;
 
@@ -768,21 +770,24 @@ public class MainWindow extends javax.swing.JFrame {
             case "Knuckles": programIcon = "/Resources/ico_knuckles.png"; break;
             default: programIcon = "/Resources/ico_sonic.png"; break;
             }
+            setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
         }
+        /*
         else if (radCustom.isSelected()) {
-            programIcon = "\""+txtCustomIcon.getText()+"\"";
+            programIcon = "\""+txtCustomIcon.getText()+"\""; 
+            programIcon = programIcon.replace("\\", "/");
+            BufferedImage img;
+        
+            try {
+                System.out.println("[DEBUG] Arguments passed: "+programIcon);
+                img = ImageIO.read(new File(programIcon));
+                this.setIconImage(img);
+            } 
+            catch (IOException e) {}
         }
-        
-        // Failsafe in case those checks up there left programIcon null
-        // TODO: Get a red X instead of the default flag
-        if (programIcon == null) programIcon = "/Resources/ico_sonic.png";
-        
-        // Set the custom image
-        System.out.println("[DEBUG] Arguments passed: "+programIcon);
         */
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("C:/Users/Alex/Desktop/emote.png")));
 
-        // Custom window title
+        /* CUSTOM TITLE */
         String launcherName = txtLauncherName.getText();
         
         // Determine if version number should be shown 
@@ -807,7 +812,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnCustomIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomIconActionPerformed
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "All image types (*.ico, *.jpg, *.jpeg, *.png)", "ico", "jpg", "jpeg", "png");
+        "All supported types (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
         
         // Set the filter, use this launcher's directory and set the title
         fc.setFileFilter((javax.swing.filechooser.FileFilter) filter);

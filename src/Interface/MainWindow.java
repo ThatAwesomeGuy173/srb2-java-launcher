@@ -131,7 +131,6 @@ public class MainWindow extends javax.swing.JFrame {
         sepSound = new javax.swing.JSeparator();
         panPlayer = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
-        ((AbstractDocument)txtName.getDocument()).setDocumentFilter(new LimitDocumentFilter(20)); // 20-character limit
         lblName = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblSkin = new javax.swing.JLabel();
@@ -521,6 +520,7 @@ public class MainWindow extends javax.swing.JFrame {
         radCustom.setBackground(new java.awt.Color(255, 255, 255));
         grpIcon.add(radCustom);
         radCustom.setText("Custom");
+        radCustom.setEnabled(false);
         radCustom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radCustomActionPerformed(evt);
@@ -638,6 +638,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.setText("File");
 
         itmNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        itmNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/new.png"))); // NOI18N
         itmNew.setText("New");
         itmNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -662,6 +663,7 @@ public class MainWindow extends javax.swing.JFrame {
         mnuFile.add(sepFile);
 
         itmOpenFolder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
+        itmOpenFolder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/openfolder.png"))); // NOI18N
         itmOpenFolder.setText("Open SRB2 Folder...");
         itmOpenFolder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

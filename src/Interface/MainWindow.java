@@ -45,23 +45,6 @@ public class MainWindow extends javax.swing.JFrame {
             // Read from ultimatesrb2launcher.cfg
             input = new FileInputStream("ultimatesrb2launcher.cfg");
             prop.load(input);
-            
-            // Set the defaults for the first-time run
-            // Also useful when upgrading from a previous version, else the launcher wouldn't open
-            if (prop.getProperty("misc.executable") == null) prop.setProperty("misc.executable", "srb2win.exe");
-            if (prop.getProperty("misc.parameters") == null) prop.setProperty("misc.parameters", "");
-            if (prop.getProperty("player.name") == null) prop.setProperty("player.name", "Sonic");
-            if (prop.getProperty("player.color") == null) prop.setProperty("player.color", "Blue");
-            if (prop.getProperty("player.skin") == null) prop.setProperty("player.skin", "Sonic");
-            if (prop.getProperty("video.renderer") == null) prop.setProperty("video.renderer", "Software");
-            if (prop.getProperty("sound.digital") == null) prop.setProperty("sound.digital", "true");
-            if (prop.getProperty("sound.midi") == null) prop.setProperty("sound.midi", "true");
-            if (prop.getProperty("sound.sfx") == null) prop.setProperty("sound.sfx", "true");
-            if (prop.getProperty("launcher.name") == null) prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
-            if (prop.getProperty("launcher.version") == null) prop.setProperty("launcher.version", "true");
-            if (prop.getProperty("launcher.icon") == null) prop.setProperty("launcher.icon", "Sonic");
-            if (prop.getProperty("launcher.customicon") == null) prop.setProperty("launcher.customicon", "");
-            if (prop.getProperty("launcher.iconselect") == null) prop.setProperty("launcher.iconselect", "Preset");
 
             // Set all values from the saved properties
             /* MISCELLANEOUS */
@@ -144,10 +127,9 @@ public class MainWindow extends javax.swing.JFrame {
                 
                 setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
             }   
-            
 	} 
         catch (IOException | NullPointerException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.WARNING, "Some properties were missing, resetting to defaults", ex);
+            Logger.getLogger(this.getName()).log(Level.WARNING, "Some properties were missing, resetting to defaults", ex);
         } 
         finally {
             if (input != null) {
@@ -155,6 +137,38 @@ public class MainWindow extends javax.swing.JFrame {
                     input.close();
 		} 
                 catch (IOException ex) {}
+            }
+            // Generate the config if it wasn't found (usually this happens at first launch)
+            else if (input == null) {
+                try {
+                    // Output everything to ultimatesrb2launcher.cfg
+                    output = new FileOutputStream("ultimatesrb2launcher.cfg");
+                    
+                    // Save all of these properties as their default values
+                    prop.setProperty("misc.executable", "srb2win.exe");
+                    prop.setProperty("misc.parameters", "");
+                    prop.setProperty("player.name", "Sonic");
+                    prop.setProperty("player.color", "Blue");
+                    prop.setProperty("player.skin", "Sonic");
+                    prop.setProperty("video.renderer", "Software");
+                    prop.setProperty("sound.digital", "true");
+                    prop.setProperty("sound.midi", "true");
+                    prop.setProperty("sound.sfx", "true");
+                    prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
+                    prop.setProperty("launcher.version", "true");
+                    prop.setProperty("launcher.icon", "Sonic");
+                    prop.setProperty("launcher.customicon", "");
+                    prop.setProperty("launcher.iconselect", "Preset");
+                    
+                    // Set the icon too because it'd show the default Java one otherwise
+                    setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_sonic.png")));
+                    
+                    // Save the properties then close the output
+                    prop.store(output, null);
+                    output.close();
+                } 
+                catch (FileNotFoundException ex) { } 
+                catch (IOException ex) { }
             }
 	}
         
@@ -180,6 +194,12 @@ public class MainWindow extends javax.swing.JFrame {
                 if (chkDigital.isSelected()) prop.setProperty("sound.digital", "true"); else prop.setProperty("sound.digital", "false");
                 if (chkMIDI.isSelected()) prop.setProperty("sound.midi", "true"); else prop.setProperty("sound.midi", "false");
                 if (chkSFX.isSelected()) prop.setProperty("sound.sfx", "true"); else prop.setProperty("sound.sfx", "false");
+                
+                if (prop.getProperty("launcher.name") == null) prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
+                if (prop.getProperty("launcher.version") == null) prop.setProperty("launcher.version", "true");
+                if (prop.getProperty("launcher.icon") == null) prop.setProperty("launcher.icon", "Sonic");
+                if (prop.getProperty("launcher.customicon") == null) prop.setProperty("launcher.customicon", "");
+                if (prop.getProperty("launcher.iconselect") == null) prop.setProperty("launcher.iconselect", "Preset");
                 
                 prop.store(output, null);
             }

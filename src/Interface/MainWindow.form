@@ -363,6 +363,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sonic"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument)txtName.getDocument()).setDocumentFilter(new LimitDocumentFilter(20));"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblName">
                   <Properties>
@@ -818,20 +821,20 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="radPreset" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="cboIcon" min="-2" max="-2" attributes="0"/>
+                                          <Component id="comIcon" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="lblLauncherName" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="btnApply" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="txtLauncherName" pref="211" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="chkShowVersion" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="btnApply" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -846,7 +849,7 @@
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="radPreset" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cboIcon" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="comIcon" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -921,7 +924,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radCustomActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cboIcon">
+                <Component class="javax.swing.JComboBox" name="comIcon">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="3">
@@ -955,7 +958,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnApply">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Apply"/>
+                    <Property name="text" type="java.lang.String" value="Save &amp; Apply"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyActionPerformed"/>

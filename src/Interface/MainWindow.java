@@ -27,6 +27,11 @@ public class MainWindow extends javax.swing.JFrame {
     String versionNumber = "v1.2 dev"; // version number! change this every release, kthx
     DefaultListModel fileModel; // filelist, useful for listing files
     
+    // I/O variables
+    Properties prop = new Properties();
+    InputStream input = null;
+    OutputStream output = null;
+    
     public MainWindow() {
         initComponents();
         
@@ -34,17 +39,15 @@ public class MainWindow extends javax.swing.JFrame {
         fileModel = new DefaultListModel();
         listFiles.setModel(fileModel);
         
-        // Save & load functionality
-        Properties prop = new Properties();
-    	InputStream input = null;
-        
+        /* SAVE/LOAD FUNTIONALITY */
+        // Load the config file on launch
         try {
-            // Load the config
+            // Read from ultimatesrb2launcher.cfg
             input = new FileInputStream("ultimatesrb2launcher.cfg");
             prop.load(input);
             
             // Set the defaults for the first-time run
-            // Also useful when upgrading from a previous version, else this won't open
+            // Also useful when upgrading from a previous version, else the launcher wouldn't open
             if (prop.getProperty("misc.executable") == null) prop.setProperty("misc.executable", "srb2win.exe");
             if (prop.getProperty("misc.parameters") == null) prop.setProperty("misc.parameters", "");
             if (prop.getProperty("player.name") == null) prop.setProperty("player.name", "Sonic");
@@ -54,18 +57,51 @@ public class MainWindow extends javax.swing.JFrame {
             if (prop.getProperty("sound.digital") == null) prop.setProperty("sound.digital", "true");
             if (prop.getProperty("sound.midi") == null) prop.setProperty("sound.midi", "true");
             if (prop.getProperty("sound.sfx") == null) prop.setProperty("sound.sfx", "true");
+            if (prop.getProperty("launcher.name") == null) prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
+            if (prop.getProperty("launcher.version") == null) prop.setProperty("launcher.version", "true");
+            if (prop.getProperty("launcher.icon") == null) prop.setProperty("launcher.icon", "Sonic");
 
-            // Grab all the saved properties here
+            // Set all values from the saved properties
+            /* MISCELLANEOUS */
             txtExecutable.setText(prop.getProperty("misc.executable"));
             txtParameters.setText(prop.getProperty("misc.parameters"));
+            
+            /* PLAYER */
             txtName.setText(prop.getProperty("player.name"));
             comColor.setSelectedItem(prop.getProperty("player.color"));
             comSkin.setSelectedItem(prop.getProperty("player.skin"));
+            
+            /* VIDEO */
             if (prop.getProperty("video.renderer").equals("OpenGL")) radOpenGL.setSelected(true); else radSoftware.setSelected(true);
+            
+            /* SOUND */
             if (prop.getProperty("sound.digital").equals("false")) chkDigital.setSelected(false); else chkDigital.setSelected(true);
             if (prop.getProperty("sound.midi").equals("false")) chkMIDI.setSelected(false); else chkMIDI.setSelected(true);
             if (prop.getProperty("sound.sfx").equals("false")) chkSFX.setSelected(false); else chkSFX.setSelected(true);
-                       
+            
+            /* LAUNCHER */
+            txtLauncherName.setText(prop.getProperty("launcher.name"));
+            comIcon.setSelectedItem(prop.getProperty("launcher.icon"));
+            if (prop.getProperty("launcher.version").equals("false")) chkShowVersion.setSelected(false); else chkShowVersion.setSelected(true);
+            
+            /* WINDOW - THEME SETTINGS ARE APPLIED ON LAUNCH */
+            /* NAME */
+            String launcherName = prop.getProperty("launcher.name");
+            if (prop.getProperty("launcher.version").equals("true")) { setTitle(launcherName +" "+ versionNumber); }
+            else { setTitle(launcherName); }
+            
+            /* ICON */
+            String programIcon = prop.getProperty("launcher.icon");
+            
+            switch (programIcon) {
+                case "Sonic": programIcon = "/Resources/ico_sonic.png"; break;
+                case "Tails": programIcon = "/Resources/ico_tails.png"; break;
+                case "Knuckles": programIcon = "/Resources/ico_knuckles.png"; break;
+                default: programIcon = "/Resources/ico_sonic.png"; break;
+            }   
+            
+            setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
+
 	} 
         catch (IOException | NullPointerException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.WARNING, "Some properties were missing, resetting to defaults", ex);
@@ -81,20 +117,26 @@ public class MainWindow extends javax.swing.JFrame {
         
         // Save everything on exit
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            OutputStream output = null;
             try {
                 // Output everything to ultimatesrb2launcher.cfg
                 output = new FileOutputStream("ultimatesrb2launcher.cfg");
                 
+                /* MISCELLANEOUS */
                 prop.setProperty("misc.executable", txtExecutable.getText());
                 prop.setProperty("misc.parameters", txtParameters.getText());
+                
+                /* PLAYER */
                 prop.setProperty("player.name", txtName.getText());
                 prop.setProperty("player.color", comColor.getSelectedItem().toString());
                 prop.setProperty("player.skin", comSkin.getSelectedItem().toString());
+                
+                /* VIDEO */
+                if (radOpenGL.isSelected()) prop.setProperty("video.renderer", "OpenGL"); else prop.setProperty("video.renderer", "Software");
+                
+                /* SOUND */
                 if (chkDigital.isSelected()) prop.setProperty("sound.digital", "true"); else prop.setProperty("sound.digital", "false");
                 if (chkMIDI.isSelected()) prop.setProperty("sound.midi", "true"); else prop.setProperty("sound.midi", "false");
                 if (chkSFX.isSelected()) prop.setProperty("sound.sfx", "true"); else prop.setProperty("sound.sfx", "false");
-                if (radOpenGL.isSelected()) prop.setProperty("video.renderer", "OpenGL"); else prop.setProperty("video.renderer", "Software");
                 
                 prop.store(output, null);
             }
@@ -131,6 +173,7 @@ public class MainWindow extends javax.swing.JFrame {
         sepSound = new javax.swing.JSeparator();
         panPlayer = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
+        ((AbstractDocument)txtName.getDocument()).setDocumentFilter(new LimitDocumentFilter(20));
         lblName = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
         lblSkin = new javax.swing.JLabel();
@@ -161,7 +204,7 @@ public class MainWindow extends javax.swing.JFrame {
         txtLauncherName = new javax.swing.JTextField();
         radPreset = new javax.swing.JRadioButton();
         radCustom = new javax.swing.JRadioButton();
-        cboIcon = new javax.swing.JComboBox<>();
+        comIcon = new javax.swing.JComboBox<>();
         chkShowVersion = new javax.swing.JCheckBox();
         btnCustomIcon = new javax.swing.JButton();
         btnApply = new javax.swing.JButton();
@@ -527,7 +570,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        cboIcon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sonic", "Tails", "Knuckles" }));
+        comIcon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sonic", "Tails", "Knuckles" }));
 
         chkShowVersion.setBackground(new java.awt.Color(255, 255, 255));
         chkShowVersion.setSelected(true);
@@ -541,7 +584,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        btnApply.setText("Apply");
+        btnApply.setText("Save & Apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyActionPerformed(evt);
@@ -568,16 +611,16 @@ public class MainWindow extends javax.swing.JFrame {
                             .addGroup(panThemeLayout.createSequentialGroup()
                                 .addComponent(radPreset)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cboIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(comIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblLauncherName))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panThemeLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnApply))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panThemeLayout.createSequentialGroup()
                         .addComponent(txtLauncherName, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chkShowVersion)))
+                        .addComponent(chkShowVersion))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panThemeLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnApply)))
                 .addContainerGap())
         );
         panThemeLayout.setVerticalGroup(
@@ -588,7 +631,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(panThemeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radPreset)
-                    .addComponent(cboIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panThemeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radCustom)
@@ -813,9 +856,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_itmAboutActionPerformed
 
     private void btnExecutableSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecutableSelectActionPerformed
-        // Choose Your File
+        // Executable file chooser
         JFileChooser fc = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("EXE files (*.exe)", "exe"); // Allow only exe files
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "EXE files (*.exe)", "exe"); // Allow only exe files
         
         fc.setFileFilter((javax.swing.filechooser.FileFilter) filter); // Set the filter
         fc.setCurrentDirectory(new java.io.File(System.getProperty("user.dir"))); // Open this launcher's current directory
@@ -863,7 +907,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         // Check whether Preset or Use Custom is selected, and act accordingly
         if (radPreset.isSelected()) { 
-            programIcon = cboIcon.getSelectedItem().toString();
+            programIcon = comIcon.getSelectedItem().toString();
             switch (programIcon) {
             case "Sonic": programIcon = "/Resources/ico_sonic.png"; break;
             case "Tails": programIcon = "/Resources/ico_tails.png"; break;
@@ -893,9 +937,18 @@ public class MainWindow extends javax.swing.JFrame {
         // Determine if version number should be shown 
         if (chkShowVersion.isSelected()) { setTitle(launcherName +" "+ versionNumber); }
         else { setTitle(launcherName); }
+        
+        this.repaint();
+        this.revalidate();
+                     
+        // Save launcher settings here
+        prop.setProperty("launcher.name", txtLauncherName.getText());
+        prop.setProperty("launcher.icon", comIcon.getSelectedItem().toString());
+        if (chkShowVersion.isSelected()) prop.setProperty("launcher.version", "true"); else prop.setProperty("launcher.version", "false");
     }//GEN-LAST:event_btnApplyActionPerformed
 	
     private void btnCustomIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomIconActionPerformed
+        // Custom icon file chooser
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
         "All supported types (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
@@ -913,19 +966,20 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void radPresetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPresetActionPerformed
         // Disables the custom icon textbox and button in the only feasible way I can think of
-        cboIcon.setEnabled(true);
+        comIcon.setEnabled(true);
         txtCustomIcon.setEnabled(false);
         btnCustomIcon.setEnabled(false);
     }//GEN-LAST:event_radPresetActionPerformed
 
     private void radCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radCustomActionPerformed
         // ...and vice-versa
-        cboIcon.setEnabled(false);
+        comIcon.setEnabled(false);
         txtCustomIcon.setEnabled(true);
         btnCustomIcon.setEnabled(true);
     }//GEN-LAST:event_radCustomActionPerformed
 
     private void btnAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFileActionPerformed
+        // Extra addon file chooser
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
         "All supported types (*.wad, *.soc, *.lua)", "wad", "soc", "lua");
@@ -942,6 +996,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddFileActionPerformed
 
     private void btnRemoveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveFileActionPerformed
+        // Delete a selected entry from the file list
         int index = listFiles.getSelectedIndex();
         if (index != -1) {
             fileModel.remove(index);
@@ -949,7 +1004,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveFileActionPerformed
 
     private void btnClearListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearListActionPerformed
-        // Delete everything
+        // Remove all file list entires with just one line
         fileModel.removeAllElements();
     }//GEN-LAST:event_btnClearListActionPerformed
 
@@ -993,9 +1048,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
                 
-
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddFile;
     private javax.swing.JButton btnApply;
@@ -1005,12 +1059,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnParametersHelp;
     private javax.swing.JButton btnRemoveFile;
     private javax.swing.JButton btnStart;
-    private javax.swing.JComboBox<String> cboIcon;
     private javax.swing.JCheckBox chkDigital;
     private javax.swing.JCheckBox chkMIDI;
     private javax.swing.JCheckBox chkSFX;
     private javax.swing.JCheckBox chkShowVersion;
     private javax.swing.JComboBox<String> comColor;
+    private javax.swing.JComboBox<String> comIcon;
     private javax.swing.JComboBox<String> comSkin;
     private javax.swing.ButtonGroup grpIcon;
     private javax.swing.ButtonGroup grpRenderer;

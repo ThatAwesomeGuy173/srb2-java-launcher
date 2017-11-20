@@ -239,6 +239,8 @@ public class MainWindow extends javax.swing.JFrame {
         btnAddFile = new javax.swing.JButton();
         btnRemoveFile = new javax.swing.JButton();
         btnClearList = new javax.swing.JButton();
+        btnMoveUp = new javax.swing.JButton();
+        btnMoveDown = new javax.swing.JButton();
         tabLauncher = new javax.swing.JPanel();
         panTheme = new javax.swing.JPanel();
         lblIcon = new javax.swing.JLabel();
@@ -531,6 +533,20 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        btnMoveUp.setText("↑");
+        btnMoveUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveUpActionPerformed(evt);
+            }
+        });
+
+        btnMoveDown.setText("↓");
+        btnMoveDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveDownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -538,14 +554,17 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 120, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnMoveUp)
+                        .addGap(9, 9, 9)
+                        .addComponent(btnMoveDown)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -557,7 +576,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMoveUp)
+                    .addComponent(btnMoveDown))
                 .addContainerGap())
         );
 
@@ -1074,6 +1095,30 @@ public class MainWindow extends javax.swing.JFrame {
         fileModel.removeAllElements();
     }//GEN-LAST:event_btnClearListActionPerformed
 
+    private void btnMoveUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveUpActionPerformed
+        // Move a selected entry upways
+        String selectedItem = listFiles.getSelectedValue();
+        int itemIndex = listFiles.getSelectedIndex();
+        
+        if(itemIndex > 0){
+            fileModel.remove(itemIndex);
+            fileModel.add(itemIndex - 1, selectedItem);
+            listFiles.setSelectedIndex(itemIndex - 1);
+        }
+    }//GEN-LAST:event_btnMoveUpActionPerformed
+
+    private void btnMoveDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveDownActionPerformed
+        // Move a selected entry downways
+        String selectedItem = listFiles.getSelectedValue();
+        int itemIndex = listFiles.getSelectedIndex();
+        
+        if( itemIndex < fileModel.getSize() -1 ){
+            fileModel.remove(itemIndex);
+            fileModel.add(itemIndex + 1, selectedItem);
+            listFiles.setSelectedIndex(itemIndex + 1);
+        }
+    }//GEN-LAST:event_btnMoveDownActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         try {
@@ -1122,6 +1167,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnClearList;
     private javax.swing.JButton btnCustomIcon;
     private javax.swing.JButton btnExecutableSelect;
+    private javax.swing.JButton btnMoveDown;
+    private javax.swing.JButton btnMoveUp;
     private javax.swing.JButton btnParametersHelp;
     private javax.swing.JButton btnRemoveFile;
     private javax.swing.JButton btnStart;

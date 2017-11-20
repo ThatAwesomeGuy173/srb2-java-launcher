@@ -24,7 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainWindow extends javax.swing.JFrame {
     // Variables accessed throughout the whole program
-    String versionNumber = "v1.2 RC1"; // version number! change this every release, kthx
+    String versionNumber = "v1.2"; // version number! change this every release, kthx
     DefaultListModel fileModel; // filelist, useful for listing files
     
     // I/O variables
@@ -834,10 +834,10 @@ public class MainWindow extends javax.swing.JFrame {
         String path = System.getProperty("user.dir") +"\\"+ exec;
         
         String args = " "+txtParameters.getText();
-        String name = " +name " + txtName.getText();
-        String skin = " +skin \"" + comSkin.getSelectedItem().toString() + "\"";
         String file = " -file " + listFiles.getModel().toString()
                       .replaceAll("\\[","").replaceAll("\\]","").replaceAll("[,]","");
+        String name = " +name " + txtName.getText();
+        String skin = " +skin \"" + comSkin.getSelectedItem().toString() + "\"";
         
         // Transform colors with spaces into underscores
         String color = comColor.getSelectedItem().toString();
@@ -1134,6 +1134,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         
     }
+    
     // Text field limiter (used for the Name text box)
     // https://stackoverflow.com/a/24473097
     public class LimitDocumentFilter extends DocumentFilter {

@@ -24,7 +24,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainWindow extends javax.swing.JFrame {
     // Variables accessed throughout the whole program
-    String versionNumber = "v1.2 dev"; // version number! change this every release, kthx
+    String versionNumber = "v1.2 RC1"; // version number! change this every release, kthx
     DefaultListModel fileModel; // filelist, useful for listing files
     
     // I/O variables
@@ -60,6 +60,8 @@ public class MainWindow extends javax.swing.JFrame {
             if (prop.getProperty("launcher.name") == null) prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
             if (prop.getProperty("launcher.version") == null) prop.setProperty("launcher.version", "true");
             if (prop.getProperty("launcher.icon") == null) prop.setProperty("launcher.icon", "Sonic");
+            if (prop.getProperty("launcher.customicon") == null) prop.setProperty("launcher.customicon", "");
+            if (prop.getProperty("launcher.iconselect") == null) prop.setProperty("launcher.iconselect", "Preset");
 
             // Set all values from the saved properties
             /* MISCELLANEOUS */
@@ -82,6 +84,8 @@ public class MainWindow extends javax.swing.JFrame {
             /* LAUNCHER */
             txtLauncherName.setText(prop.getProperty("launcher.name"));
             comIcon.setSelectedItem(prop.getProperty("launcher.icon"));
+            txtCustomIcon.setText(prop.getProperty("launcher.customicon"));
+            if (prop.getProperty("launcher.iconselect").equals("Custom")) radCustom.setSelected(true); else radPreset.setSelected(true);
             if (prop.getProperty("launcher.version").equals("false")) chkShowVersion.setSelected(false); else chkShowVersion.setSelected(true);
             
             /* WINDOW - THEME SETTINGS ARE APPLIED ON LAUNCH */
@@ -91,17 +95,56 @@ public class MainWindow extends javax.swing.JFrame {
             else { setTitle(launcherName); }
             
             /* ICON */
-            String programIcon = prop.getProperty("launcher.icon");
+            String programIcon;
             
-            switch (programIcon) {
+            // Custom icon
+            if (prop.getProperty("launcher.iconselect").equals("Custom")) {
+                // Enable Custom icon elements
+                comIcon.setEnabled(false);
+                txtCustomIcon.setEnabled(true);
+                btnCustomIcon.setEnabled(true);
+                
+                // Set the custom icon
+                try {
+                    programIcon = prop.getProperty("launcher.customicon"); 
+                    BufferedImage img;
+
+                    img = ImageIO.read(new File(programIcon));
+                    this.setIconImage(img);
+                } 
+                catch (IOException e) {
+                    // Ignore the empty textbox
+                    if (txtCustomIcon.getText().equals("")) { /* do nothing */ }
+                    else { 
+                        JOptionPane.showMessageDialog(null,
+                        "Unable to load the custom icon image!\n"
+                        +"Was the file moved, deleted or renamed?",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            
+            // Preset icon
+            else {
+                // Enable the Preset icon elements
+                comIcon.setEnabled(true);
+                txtCustomIcon.setEnabled(false);
+                btnCustomIcon.setEnabled(false);
+                
+                // Set the Preset icon
+                programIcon = prop.getProperty("launcher.icon");
+                
+                switch (programIcon) {
                 case "Sonic": programIcon = "/Resources/ico_sonic.png"; break;
                 case "Tails": programIcon = "/Resources/ico_tails.png"; break;
                 case "Knuckles": programIcon = "/Resources/ico_knuckles.png"; break;
                 default: programIcon = "/Resources/ico_sonic.png"; break;
+                }
+                
+                setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
             }   
             
-            setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
-
 	} 
         catch (IOException | NullPointerException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.WARNING, "Some properties were missing, resetting to defaults", ex);
@@ -563,7 +606,6 @@ public class MainWindow extends javax.swing.JFrame {
         radCustom.setBackground(new java.awt.Color(255, 255, 255));
         grpIcon.add(radCustom);
         radCustom.setText("Custom");
-        radCustom.setEnabled(false);
         radCustom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radCustomActionPerformed(evt);
@@ -882,12 +924,14 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
         // Reset everything to default
+        // But first, we need to ask if they really want to reset
         int reply = JOptionPane.showConfirmDialog(null, 
             "This will reset all fields to their defaults!\n"
             +"Are you sure you want to continue?\n",
             "",
             JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION){
+        if (reply == JOptionPane.YES_OPTION) {
+            /* MAIN TAB */
             txtExecutable.setText("srb2win.exe");
             txtParameters.setText("");
             txtName.setText("Sonic");
@@ -896,15 +940,35 @@ public class MainWindow extends javax.swing.JFrame {
             radSoftware.setSelected(true);
             chkDigital.setSelected(true);
             chkMIDI.setSelected(true);
-            chkSFX.setSelected(true);
+            
+            /* FILE LIST TAB */
+            fileModel.removeAllElements();
+            
+            /* LAUNCHER TAB */
+            radPreset.setSelected(true);
+            txtCustomIcon.setText("");
+            txtLauncherName.setText("Ultimate SRB2 Launcher");
+            chkShowVersion.setSelected(true);
+            comIcon.setSelectedItem("Sonic");
+            
+            // Reset the window too
+            setTitle("Ultimate SRB2 Launcher " + versionNumber);
+            setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Resources/ico_sonic.png")));
+            
+            // Save their properties too while we're at it
+            prop.setProperty("launcher.name", "Ultimate SRB2 Launcher");
+            prop.setProperty("launcher.icon", "Sonic");
+            prop.setProperty("launcher.customicon", "");
+            prop.setProperty("launcher.iconselect", "Preset");
+            prop.setProperty("launcher.version", "true");
         }
     }//GEN-LAST:event_itmNewActionPerformed
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
         /* CUSTOM ICON */        
-        // Create a variable that will change depending on what was selected        
+        // Create a variable that will change depending on what was selected
         String programIcon;
-
+        
         // Check whether Preset or Use Custom is selected, and act accordingly
         if (radPreset.isSelected()) { 
             programIcon = comIcon.getSelectedItem().toString();
@@ -916,20 +980,23 @@ public class MainWindow extends javax.swing.JFrame {
             }
             setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(programIcon)));
         }
-        /*
-        else if (radCustom.isSelected()) {
-            programIcon = "\""+txtCustomIcon.getText()+"\""; 
-            programIcon = programIcon.replace("\\", "/");
-            BufferedImage img;
-        
+
+        if (radCustom.isSelected()) {
             try {
-                System.out.println("[DEBUG] Arguments passed: "+programIcon);
+                programIcon = txtCustomIcon.getText(); 
+                BufferedImage img;
+                
+                // System.out.println("[DEBUG] Arguments passed: "+programIcon);
                 img = ImageIO.read(new File(programIcon));
                 this.setIconImage(img);
             } 
-            catch (IOException e) {}
+            catch (IOException e) {
+                JOptionPane.showMessageDialog(null,
+                "The system cannot find the file specified.",
+                "File not found",
+                JOptionPane.ERROR_MESSAGE);
+            }
         }
-        */
 
         /* CUSTOM TITLE */
         String launcherName = txtLauncherName.getText();
@@ -937,13 +1004,12 @@ public class MainWindow extends javax.swing.JFrame {
         // Determine if version number should be shown 
         if (chkShowVersion.isSelected()) { setTitle(launcherName +" "+ versionNumber); }
         else { setTitle(launcherName); }
-        
-        this.repaint();
-        this.revalidate();
                      
-        // Save launcher settings here
+        /* SAVE VALUES ON CLICK */
         prop.setProperty("launcher.name", txtLauncherName.getText());
         prop.setProperty("launcher.icon", comIcon.getSelectedItem().toString());
+        prop.setProperty("launcher.customicon", txtCustomIcon.getText());
+        if (radCustom.isSelected()) prop.setProperty("launcher.iconselect", "Custom"); else prop.setProperty("launcher.iconselect", "Preset");
         if (chkShowVersion.isSelected()) prop.setProperty("launcher.version", "true"); else prop.setProperty("launcher.version", "false");
     }//GEN-LAST:event_btnApplyActionPerformed
 	
@@ -951,14 +1017,14 @@ public class MainWindow extends javax.swing.JFrame {
         // Custom icon file chooser
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "All supported types (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+        "All supported types (*.png, *.jpg, *.gif)", "png", "jpeg", "jpg", "gif");
         
         // Set the filter, use this launcher's directory and set the title
         fc.setFileFilter((javax.swing.filechooser.FileFilter) filter);
         fc.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         fc.setDialogTitle("Select an image");
         
-        // Set the icon image ONLY if the user presses OK
+        // Set the path to the image ONLY if the user presses OK
         if (fc.showOpenDialog(btnCustomIcon) == JFileChooser.APPROVE_OPTION){
             txtCustomIcon.setText(fc.getSelectedFile().getAbsolutePath()); 
         }
@@ -989,7 +1055,7 @@ public class MainWindow extends javax.swing.JFrame {
         fc.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         fc.setDialogTitle("Select a file");
         
-        // Set the icon image ONLY if the user presses OK
+        // Add the file ONLY if the user presses OK
         if (fc.showOpenDialog(btnCustomIcon) == JFileChooser.APPROVE_OPTION){
             fileModel.addElement(fc.getSelectedFile().getName());
         }

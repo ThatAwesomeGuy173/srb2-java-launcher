@@ -227,6 +227,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         grpRenderer = new javax.swing.ButtonGroup();
         grpIcon = new javax.swing.ButtonGroup();
+        jToggleButton1 = new javax.swing.JToggleButton();
         tabpanelMain = new javax.swing.JTabbedPane();
         tabMain = new javax.swing.JPanel();
         panSound = new javax.swing.JPanel();
@@ -242,6 +243,8 @@ public class MainWindow extends javax.swing.JFrame {
         lblSkin = new javax.swing.JLabel();
         comColor = new javax.swing.JComboBox<>();
         comSkin = new javax.swing.JComboBox<>();
+        panelImage = new javax.swing.JPanel();
+        lblCharacter = new javax.swing.JLabel();
         panMisc = new javax.swing.JPanel();
         lblCommandline = new javax.swing.JLabel();
         lblExecutable = new javax.swing.JLabel();
@@ -252,6 +255,10 @@ public class MainWindow extends javax.swing.JFrame {
         panRenderer = new javax.swing.JPanel();
         radSoftware = new javax.swing.JRadioButton();
         radOpenGL = new javax.swing.JRadioButton();
+        panResolution = new javax.swing.JPanel();
+        comResolution = new javax.swing.JComboBox<>();
+        chkWindowed = new javax.swing.JCheckBox();
+        chkShowNonGreen = new javax.swing.JCheckBox();
         tabFiles = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -261,6 +268,9 @@ public class MainWindow extends javax.swing.JFrame {
         btnClearList = new javax.swing.JButton();
         btnMoveUp = new javax.swing.JButton();
         btnMoveDown = new javax.swing.JButton();
+        sepTheme1 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         tabLauncher = new javax.swing.JPanel();
         panTheme = new javax.swing.JPanel();
         lblIcon = new javax.swing.JLabel();
@@ -286,6 +296,8 @@ public class MainWindow extends javax.swing.JFrame {
         itmOpenFolder = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         itmAbout = new javax.swing.JMenuItem();
+
+        jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ultimate SRB2 Launcher "+ versionNumber);
@@ -325,21 +337,21 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(chkMIDI)
                             .addComponent(chkDigital)
                             .addComponent(chkSFX))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panSoundLayout.setVerticalGroup(
             panSoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panSoundLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
+                .addContainerGap()
                 .addComponent(chkDigital)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkMIDI, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sepSound, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sepSound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkSFX)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panPlayer.setBackground(new java.awt.Color(255, 255, 255));
@@ -359,24 +371,47 @@ public class MainWindow extends javax.swing.JFrame {
 
         comSkin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sonic", "Tails", "Knuckles" }));
 
+        panelImage.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblCharacter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/sonic.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelImageLayout = new javax.swing.GroupLayout(panelImage);
+        panelImage.setLayout(panelImageLayout);
+        panelImageLayout.setHorizontalGroup(
+            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelImageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblCharacter)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelImageLayout.setVerticalGroup(
+            panelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelImageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblCharacter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout panPlayerLayout = new javax.swing.GroupLayout(panPlayer);
         panPlayer.setLayout(panPlayerLayout);
         panPlayerLayout.setHorizontalGroup(
             panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panPlayerLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblName)
-                    .addComponent(lblColor))
-                .addGap(18, 18, 18)
+                    .addComponent(lblColor, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblName, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panPlayerLayout.createSequentialGroup()
                         .addComponent(comColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGap(43, 43, 43)
                         .addComponent(lblSkin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(comSkin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtName))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panPlayerLayout.setVerticalGroup(
@@ -393,13 +428,16 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(comSkin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSkin))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panPlayerLayout.createSequentialGroup()
+                .addComponent(panelImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         panMisc.setBackground(new java.awt.Color(255, 255, 255));
         panMisc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Misc."));
         panMisc.setName(""); // NOI18N
 
-        lblCommandline.setText("Command-line parameters");
+        lblCommandline.setText("Custom Arguments");
 
         lblExecutable.setText("Executable");
 
@@ -425,35 +463,33 @@ public class MainWindow extends javax.swing.JFrame {
             panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panMiscLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblCommandline)
-                    .addComponent(lblExecutable)
-                    .addGroup(panMiscLayout.createSequentialGroup()
-                        .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtParameters, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnParametersHelp)
-                            .addComponent(btnExecutableSelect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblExecutable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtParameters)
+                    .addComponent(txtExecutable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnParametersHelp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExecutableSelect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         panMiscLayout.setVerticalGroup(
             panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panMiscLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(lblCommandline)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCommandline)
                     .addComponent(txtParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnParametersHelp))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblExecutable)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panMiscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExecutable)
                     .addComponent(txtExecutable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExecutableSelect))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panRenderer.setBackground(new java.awt.Color(255, 255, 255));
@@ -475,18 +511,56 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(panRendererLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radOpenGL)
-                    .addComponent(radSoftware))
+                    .addGroup(panRendererLayout.createSequentialGroup()
+                        .addComponent(radOpenGL)
+                        .addGap(6, 6, 6))
+                    .addComponent(radSoftware, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panRendererLayout.setVerticalGroup(
             panRendererLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panRendererLayout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addComponent(radSoftware, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(radOpenGL)
-                .addGap(15, 15, 15))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panResolution.setBackground(new java.awt.Color(255, 255, 255));
+        panResolution.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Resolution"));
+
+        comResolution.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1920x1200", "1280x800", "640x400", "320x200" }));
+        comResolution.setSelectedIndex(2);
+
+        chkWindowed.setBackground(new java.awt.Color(255, 255, 255));
+        chkWindowed.setText("Windowed");
+
+        chkShowNonGreen.setBackground(new java.awt.Color(255, 255, 255));
+        chkShowNonGreen.setText("Show non-green resolutions");
+
+        javax.swing.GroupLayout panResolutionLayout = new javax.swing.GroupLayout(panResolution);
+        panResolution.setLayout(panResolutionLayout);
+        panResolutionLayout.setHorizontalGroup(
+            panResolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panResolutionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panResolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chkShowNonGreen)
+                    .addComponent(chkWindowed)
+                    .addComponent(comResolution, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        panResolutionLayout.setVerticalGroup(
+            panResolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panResolutionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comResolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkWindowed)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkShowNonGreen)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tabMainLayout = new javax.swing.GroupLayout(tabMain);
@@ -496,28 +570,29 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(tabMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tabMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panMisc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(tabMainLayout.createSequentialGroup()
-                        .addComponent(panPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panSound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panRenderer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(tabMainLayout.createSequentialGroup()
-                        .addComponent(panMisc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panRenderer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panSound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(panResolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         tabMainLayout.setVerticalGroup(
             tabMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tabMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panRenderer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(tabMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panMisc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panSound, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(tabMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panSound, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panRenderer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panResolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(panMisc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tabpanelMain.addTab("Main", tabMain);
@@ -567,6 +642,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Import");
+        jButton1.setMaximumSize(new java.awt.Dimension(71, 23));
+        jButton1.setMinimumSize(new java.awt.Dimension(71, 23));
+        jButton1.setPreferredSize(new java.awt.Dimension(71, 23));
+
+        jButton2.setText("Export");
+        jButton2.setPreferredSize(new java.awt.Dimension(71, 23));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -578,20 +661,26 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(btnMoveUp)
                         .addGap(9, 9, 9)
                         .addComponent(btnMoveDown)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sepTheme1))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,6 +688,12 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(btnClearList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMoveUp)
                     .addComponent(btnMoveDown))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sepTheme1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -698,7 +793,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(lblLauncherName))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panThemeLayout.createSequentialGroup()
-                        .addComponent(txtLauncherName, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                        .addComponent(txtLauncherName, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(chkShowVersion))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panThemeLayout.createSequentialGroup()
@@ -728,9 +823,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(panThemeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLauncherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkShowVersion))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(btnApply)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout tabLauncherLayout = new javax.swing.GroupLayout(tabLauncher);
@@ -746,8 +841,8 @@ public class MainWindow extends javax.swing.JFrame {
             tabLauncherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabLauncherLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panTheme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabpanelMain.addTab("Launcher", tabLauncher);
@@ -821,23 +916,22 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabpanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sepBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnStart)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(sepBottom)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnStart))
+                    .addComponent(tabpanelMain, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabpanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabpanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(sepBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(btnStart)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1196,9 +1290,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkDigital;
     private javax.swing.JCheckBox chkMIDI;
     private javax.swing.JCheckBox chkSFX;
+    private javax.swing.JCheckBox chkShowNonGreen;
     private javax.swing.JCheckBox chkShowVersion;
+    private javax.swing.JCheckBox chkWindowed;
     private javax.swing.JComboBox<String> comColor;
     private javax.swing.JComboBox<String> comIcon;
+    private javax.swing.JComboBox<String> comResolution;
     private javax.swing.JComboBox<String> comSkin;
     private javax.swing.ButtonGroup grpIcon;
     private javax.swing.ButtonGroup grpRenderer;
@@ -1208,8 +1305,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem itmOpenFolder;
     private javax.swing.JMenuItem itmSave;
     private javax.swing.JMenuItem itmSaveAs;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel lblCharacter;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCommandline;
     private javax.swing.JLabel lblExecutable;
@@ -1223,8 +1324,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel panMisc;
     private javax.swing.JPanel panPlayer;
     private javax.swing.JPanel panRenderer;
+    private javax.swing.JPanel panResolution;
     private javax.swing.JPanel panSound;
     private javax.swing.JPanel panTheme;
+    private javax.swing.JPanel panelImage;
     private javax.swing.JRadioButton radCustom;
     private javax.swing.JRadioButton radOpenGL;
     private javax.swing.JRadioButton radPreset;
@@ -1233,6 +1336,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator sepFile;
     private javax.swing.JSeparator sepSound;
     private javax.swing.JSeparator sepTheme;
+    private javax.swing.JSeparator sepTheme1;
     private javax.swing.JPanel tabFiles;
     private javax.swing.JPanel tabLauncher;
     private javax.swing.JPanel tabMain;
